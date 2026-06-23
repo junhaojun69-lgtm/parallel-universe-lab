@@ -1,0 +1,13 @@
+{
+  "name": "parallel-universe-lab",
+  "version": "1.0.0",
+  "description": "人生平行宇宙实验室 - AI人生决策成长平台",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1",
+    "axios": "^1.6.8",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7"
+  }
+}
