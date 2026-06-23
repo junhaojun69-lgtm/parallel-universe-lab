@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生平行宇宙实验室 - PPT 大纲</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #0a0a1a;
+    color: #e8e8f0;
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    padding: 40px 20px 80px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 顶部标题区 */
+  .header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, rgba(138, 99, 255, 0.08), rgba(74, 158, 255, 0.08), rgba(0, 229, 255, 0.08));
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(138, 99, 255, 0.12), transparent 40%),
+                radial-gradient(circle at 70% 50%, rgba(0, 229, 255, 0.1), transparent 40%);
+    pointer-events: none;
+  }
+
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+    position: relative;
+  }
+
+  .header .subtitle {
+    font-size: 16px;
+    color: #a0a0c0;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .header .meta {
+    font-size: 13px;
+    color: #707090;
+    position: relative;
+  }
+
+  .total-pages {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 6px 18px;
+    background: rgba(138, 99, 255, 0.15);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 20px;
+    font-size: 13px;
+    color: #b8a0ff;
+    position: relative;
+  }
+
+  /* 卡片样式 */
+  .slide-card {
+    background: linear-gradient(180deg, rgba(30, 30, 60, 0.6), rgba(20, 20, 40, 0.6));
+    border: 1px solid rgba(138, 99, 255, 0.18);
+    border-radius: 16px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .slide-card:hover {
+    border-color: rgba(74, 158, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .slide-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #8a63ff, #4a9eff, #00e5ff);
+    border-radius: 16px 0 0 16px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 22px;
+  }
+
+  .page-number {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex-shrink: 0;
+    min-width: 70px;
+  }
+
+  .card-title-wrap {
+    flex: 1;
+    padding-top: 6px;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #707090;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #f0f0ff;
+  }
+
+  .card-content {
+    margin-left: 94px;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a63ff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-top: 18px;
+  }
+
+  .section-label:first-child {
+    margin-top: 0;
+  }
+
+  .content-list {
+    list-style: none;
+    margin-bottom: 8px;
+  }
+
+  .content-list li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+    color: #d0d0e0;
+    font-size: 15px;
+  }
+
+  .content-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff);
+  }
+
+  .content-list li strong {
+    color: #00e5ff;
+    font-weight: 600;
+  }
+
+  .content-list li .sub {
+    color: #9090b0;
+    font-size: 14px;
+  }
+
+  .visual-suggestion {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: rgba(0, 229, 255, 0.05);
+    border-left: 3px solid rgba(0, 229, 255, 0.4);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    font-style: italic;
+    color: #80b8d0;
+  }
+
+  .visual-suggestion::before {
+    content: "视觉建议：";
+    font-style: normal;
+    font-weight: 600;
+    color: #4a9eff;
+  }
+
+  /* 封面卡片特殊样式 */
+  .cover-card .card-title {
+    font-size: 26px;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* 结尾卡片特殊样式 */
+  .ending-card {
+    text-align: center;
+  }
+
+  .ending-card .card-header {
+    justify-content: center;
+  }
+
+  .ending-card .card-content {
+    margin-left: 0;
+  }
+
+  .ending-quote {
+    font-size: 18px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 16px 0;
+    line-height: 1.8;
+  }
+
+  /* 页脚 */
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(138, 99, 255, 0.15);
+    color: #606080;
+    font-size: 13px;
+  }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .card-header {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-content {
+      margin-left: 0;
+    }
+    .page-number {
+      font-size: 42px;
+      min-width: auto;
+    }
+    .slide-card {
+      padding: 24px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 顶部标题 -->
+  <div class="header">
+    <h1>人生平行宇宙实验室</h1>
+    <div class="subtitle">AI 人生决策成长平台 · PPT 演示大纲</div>
+    <div class="meta">面向比赛评委 · 逐页内容详解</div>
+    <div class="total-pages">共 15 页</div>
+  </div>
+
+  <!-- 第1页：封面 -->
+  <div class="slide-card cover-card">
+    <div class="card-header">
+      <div class="page-number">01</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">封面</div>
+        <div class="card-title">人生平行宇宙实验室</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>主标题</strong>：人生平行宇宙实验室</li>
+        <li><strong>副标题</strong>：AI 人生决策成长平台</li>
+        <li><strong>团队信息</strong>：团队名称、成员姓名、指导老师</li>
+        <li><strong>赛事信息</strong>：比赛名称、参赛组别、日期</li>
+        <li><strong>Slogan</strong>：让每一个选择，都有平行宇宙的答案</li>
+      </ul>
+      <div class="visual-suggestion">深色宇宙星空背景，星点闪烁动效；主标题使用紫蓝青三色渐变，居中放大；副标题置于标题下方，字号缩小；底部展示团队 logo 与成员信息，整体营造科技感与未来感。</div>
+    </div>
+  </div>
+
+  <!-- 第2页：问题背景 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">02</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">问题背景</div>
+        <div class="card-title">如果当初做了另一个选择，你的人生会怎样？</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>核心提问</strong>：以大字形式抛出"如果当初做了另一个选择，你的人生会怎样？"引发共鸣</li>
+        <li><strong>关键数据</strong>：87% 的年轻人在面临重大决策时感到焦虑与迷茫</li>
+        <li><strong>痛点一</strong>：缺乏科学工具 —— 凭直觉决策，缺少系统化分析手段</li>
+        <li><strong>痛点二</strong>：无法预见未来 —— 选择前看不到不同路径的长期影响</li>
+        <li><strong>痛点三</strong>：决策后无法复盘 —— 选完即结束，缺乏反馈与成长机制</li>
+      </ul>
+      <div class="visual-suggestion">页面顶部以超大字号呈现核心提问，配合渐变色突出；中部用三张数据卡片横向排列展示三大痛点，每张卡片配图标与简短说明；左下角放置 87% 大数字数据可视化，强化问题严重性。</div>
+    </div>
+  </div>
+
+  <!-- 第3页：解决方案 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">03</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">解决方案</div>
+        <div class="card-title">人生平行宇宙实验室 · 产品定位</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>产品名称</strong>：人生平行宇宙实验室</li>
+        <li><strong>产品定位</strong>：AI 驱动的人生决策模拟与成长平台</li>
+        <li><strong>核心机制一</strong>：四重平行宇宙推演 —— 模拟四种人生发展路径</li>
+        <li><strong>核心机制二</strong>：决策全生命周期闭环 —— 从推演到复盘的完整链路</li>
+        <li><strong>价值主张</strong>：用 AI 帮你预见可能，用数据帮你量化决策</li>
+      </ul>
+      <div class="visual-suggestion">产品定位图：中央放置产品名称与核心定位语，左右两侧分别延伸出"四重平行宇宙推演"与"决策全生命周期闭环"两大支柱，用连线与图标呈现整体架构，底部标注价值主张。</div>
+    </div>
+  </div>
+
+  <!-- 第4页：核心功能 - 四重平行宇宙 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">04</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">核心功能</div>
+        <div class="card-title">四重平行宇宙推演</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>安稳宇宙</strong>：延续当前轨迹 —— 维持现状，稳步发展，风险最低</li>
+        <li><strong>突破宇宙</strong>：坚定执行决定 —— 全力推进既定选择，追求突破</li>
+        <li><strong>成长宇宙</strong>：渐进转型路径 —— 分阶段过渡，平衡风险与收益</li>
+        <li><strong>创新宇宙</strong>：差异化路线 —— 探索非常规路径，寻找新可能</li>
+        <li><strong>对比维度</strong>：四条路径在收入、成长、风险、幸福感等维度横向对比</li>
+      </ul>
+      <div class="visual-suggestion">四宫格宇宙卡片布局：每个宇宙用独立色系（紫/蓝/青/绿）区分，配专属图标与一句话描述；卡片内展示该宇宙的关键指标预览；四宫格整体呈对称排列，中心可放置"你"的图标作为决策原点。</div>
+    </div>
+  </div>
+
+  <!-- 第5页：核心功能 - 深度分析 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">05</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">核心功能</div>
+        <div class="card-title">AI 深度分析引擎</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>AI 决策树</strong>：可视化路径分支与概率，预测每条路径的走向</li>
+        <li><strong>风险预警</strong>：识别关键后悔点与风险点，提前规避决策陷阱</li>
+        <li><strong>AI 未来来信</strong>：3 / 5 / 10 年后的自己写信给现在的你，具象化未来</li>
+        <li><strong>后悔指数</strong>：量化不行动的代价，用数据打破决策拖延</li>
+        <li><strong>人生价值雷达</strong>：六维度对比四重宇宙，直观呈现各路径优劣</li>
+      </ul>
+      <div class="visual-suggestion">功能截图网格：2x3 布局展示六大功能的界面截图或示意图；每个截图配功能名称与一句话说明；决策树用树状图呈现，雷达图用六边形对比，未来信用信纸样式，整体形成功能矩阵。</div>
+    </div>
+  </div>
+
+  <!-- 第6页：核心功能 - 决策成长闭环 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">06</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">核心功能</div>
+        <div class="card-title">决策成长闭环系统</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>闭环五步</strong>：推演 → 执行 → 复盘 → 档案 → 体检，形成完整循环</li>
+        <li><strong>三阶段复盘</strong>：30 天 / 90 天 / 180 天分阶段回顾决策效果</li>
+        <li><strong>决策档案</strong>：时间轴形式记录每一次决策的完整过程与结果</li>
+        <li><strong>AI 决策体检</strong>：六维能力评估，量化个人决策能力成长</li>
+        <li><strong>AI 人生地图</strong>：可视化路径树，呈现人生决策的全局脉络</li>
+      </ul>
+      <div class="visual-suggestion">闭环流程图：以环形布局展示五步骤，箭头首尾相连形成闭环；环内中心放置"成长"核心词；右侧或下方配人生地图树状图预览，展示节点分支与时间轴档案样例。</div>
+    </div>
+  </div>
+
+  <!-- 第7页：技术创新 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">07</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">技术创新</div>
+        <div class="card-title">四大核心技术创新</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>创新一</strong>：四重平行宇宙推演引擎 —— 独创四维模型，多路径并行模拟</li>
+        <li><strong>创新二</strong>：决策全生命周期闭环 —— 三阶段复盘机制，行业首创</li>
+        <li><strong>创新三</strong>：六维决策能力体检系统 —— 量化评估决策能力，可追踪成长</li>
+        <li><strong>创新四</strong>：AI 人生地图可视化 —— 16 节点树状图，全局呈现人生路径</li>
+        <li><strong>技术壁垒</strong>：四项创新均具备原创性与可扩展性，形成技术护城河</li>
+      </ul>
+      <div class="visual-suggestion">四大创新卡片：2x2 网格布局，每张卡片配编号、创新名称、核心技术说明与差异化亮点；卡片用渐变边框区分，配科技感图标；底部可加一行"原创性 / 实用性 / 可扩展性"标签。</div>
+    </div>
+  </div>
+
+  <!-- 第8页：技术架构 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">08</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">技术架构</div>
+        <div class="card-title">系统技术架构</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>前端层</strong>：Vue 3 + Vite + ECharts，响应式界面与数据可视化</li>
+        <li><strong>后端层</strong>：Express.js + RESTful API，提供稳定服务接口</li>
+        <li><strong>AI 层</strong>：DeepSeek 大模型 + Prompt Engineering，驱动智能分析</li>
+        <li><strong>数据层</strong>：MySQL 持久化存储 + localStorage 本地缓存</li>
+        <li><strong>架构特点</strong>：前后端分离，模块化设计，易于扩展与维护</li>
+      </ul>
+      <div class="visual-suggestion">分层架构图：自上而下分为前端层、后端层、AI 层、数据层四个色带；每层标注技术栈与核心职责；层间用箭头表示数据流向；右侧可附技术选型理由简表。</div>
+    </div>
+  </div>
+
+  <!-- 第9页：社会价值 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">09</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">社会价值</div>
+        <div class="card-title">科技赋能个人成长</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>减少焦虑</strong>：帮助年轻人科学决策，缓解选择焦虑与迷茫</li>
+        <li><strong>促进成长</strong>：量化决策能力，让个人成长可衡量、可追踪</li>
+        <li><strong>AI 民主化</strong>：让每个人都能获得 AI 辅助，降低决策门槛</li>
+        <li><strong>社会效益</strong>：提升整体决策质量，减少因决策失误造成的社会资源浪费</li>
+      </ul>
+      <div class="visual-suggestion">价值图标 + 数据：三个核心价值用图标卡片呈现（如大脑代表科学决策、上升曲线代表成长、人群代表 AI 民主化）；每个图标下方配关键数据或受益人群规模估算。</div>
+    </div>
+  </div>
+
+  <!-- 第10页：商业价值 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">10</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">商业价值</div>
+        <div class="card-title">三层商业模式</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>B2C 个人用户</strong>：订阅制收费，9.9 元/月，面向大众消费者</li>
+        <li><strong>B2B 企业客户</strong>：企业人才发展定制化服务，按需定价</li>
+        <li><strong>B2G 政府高校</strong>：高校就业指导中心合作项目，公益与商业结合</li>
+        <li><strong>盈利预期</strong>：三层模式形成收入金字塔，C 端引流、B 端增值、G 端背书</li>
+      </ul>
+      <div class="visual-suggestion">三层商业模式图：金字塔或三层堆叠结构，底层 B2C（量大价低）、中层 B2B（量中价高）、顶层 B2G（战略合作）；每层标注目标客户、收费方式与预期规模。</div>
+    </div>
+  </div>
+
+  <!-- 第11页：应用场景 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">11</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">应用场景</div>
+        <div class="card-title">六大应用场景</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>毕业生职业选择</strong>：求职方向、行业选择的决策推演</li>
+        <li><strong>职场转型决策</strong>：跳槽、转行、晋升路径的模拟分析</li>
+        <li><strong>城市迁移规划</strong>：换城市发展的成本收益与生活影响评估</li>
+        <li><strong>教育规划</strong>：升学、留学、专业选择的长远规划</li>
+        <li><strong>企业人才发展</strong>：员工职业路径规划与人才梯队建设</li>
+        <li><strong>心理咨询辅助</strong>：辅助咨询师进行决策心理干预</li>
+      </ul>
+      <div class="visual-suggestion">六宫格场景卡片：3x2 布局，每个场景配专属图标、场景名称与典型用户画像；卡片悬停可展示具体案例；整体呈现产品广泛适用性。</div>
+    </div>
+  </div>
+
+  <!-- 第12页：数据驾驶舱 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">12</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">数据驾驶舱</div>
+        <div class="card-title">平台运营数据全景</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>核心指标</strong>：总模拟人数、累计决策次数、AI 分析次数、活跃用户数</li>
+        <li><strong>趋势分析</strong>：折线图展示用户增长与决策频次变化趋势</li>
+        <li><strong>分布统计</strong>：柱状图呈现各应用场景使用分布</li>
+        <li><strong>构成占比</strong>：环形图展示用户类型与付费转化构成</li>
+        <li><strong>实时活动流</strong>：动态展示最新决策模拟与复盘记录</li>
+      </ul>
+      <div class="visual-suggestion">数据驾驶舱截图：顶部四个核心指标数字卡片；中部左侧折线图（用户增长趋势）、右侧柱状图（场景分布）；底部环形图（用户构成）+ 实时活动流滚动列表；整体深色仪表盘风格。</div>
+    </div>
+  </div>
+
+  <!-- 第13页：团队介绍 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">13</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">团队介绍</div>
+        <div class="card-title">核心团队</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>团队成员</strong>：逐一介绍核心成员姓名、角色与分工</li>
+        <li><strong>技术能力</strong>：前端开发、后端架构、AI 模型、产品设计等能力矩阵</li>
+        <li><strong>项目经验</strong>：团队成员过往项目经历与技术积累</li>
+        <li><strong>指导支持</strong>：指导老师及顾问团队的专业背景</li>
+      </ul>
+      <div class="visual-suggestion">团队照片 + 简介：顶部放置团队合照或成员头像横排；每个头像下方标注姓名、职位与一句话专长；底部可附技术能力雷达图或分工矩阵图。</div>
+    </div>
+  </div>
+
+  <!-- 第14页：未来规划 -->
+  <div class="slide-card">
+    <div class="card-header">
+      <div class="page-number">14</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">未来规划</div>
+        <div class="card-title">发展路线图</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list">
+        <li><strong>短期（0-6 个月）</strong>：优化 AI 模型精度，提升用户体验，增加用户量</li>
+        <li><strong>中期（6-18 个月）</strong>：推出企业版，拓展 B2B 市场，建立合作生态</li>
+        <li><strong>长期（18 个月以上）</strong>：构建人生决策 AI 生态，成为行业基础设施</li>
+        <li><strong>愿景</strong>：让 AI 成为每个人的人生决策伙伴</li>
+      </ul>
+      <div class="visual-suggestion">时间线路线图：横向时间轴贯穿页面，三个节点分别对应短/中/长期；每个节点上方标注阶段目标，下方列出关键举措；用渐变色箭头表示发展方向，末端放置愿景标语。</div>
+    </div>
+  </div>
+
+  <!-- 第15页：结尾 -->
+  <div class="slide-card ending-card">
+    <div class="card-header">
+      <div class="page-number">15</div>
+      <div class="card-title-wrap">
+        <div class="card-tag">结尾</div>
+        <div class="card-title">谢谢评委</div>
+      </div>
+    </div>
+    <div class="card-content">
+      <div class="section-label">内容要点</div>
+      <ul class="content-list" style="text-align:left; display:inline-block;">
+        <li><strong>核心理念</strong>：人生没有标准答案，但 AI 可以帮你预见可能</li>
+        <li><strong>品牌主张</strong>：让每一个选择，都有平行宇宙的答案</li>
+        <li><strong>致谢</strong>：感谢评委的聆听与指导</li>
+        <li><strong>互动</strong>：欢迎提问与交流</li>
+      </ul>
+      <div class="ending-quote">
+        人生没有标准答案，但 AI 可以帮你预见可能。<br>
+        让每一个选择，都有平行宇宙的答案。
+      </div>
+      <div class="visual-suggestion">渐变大字 + 宇宙背景：全屏深色宇宙星空，中央以紫蓝青渐变大字呈现品牌主张；底部居中显示"谢谢评委"与团队 logo；可加入星点闪烁与光晕动效，首尾呼应封面。</div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer">
+    人生平行宇宙实验室 · AI 人生决策成长平台<br>
+    PPT 演示大纲文档 · 面向比赛评委
+  </div>
+
+</div>
+</body>
+</html>
