@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术架构图 - 人生平行宇宙实验室</title>
+<style>
+  /* ========== 全局重置与基础 ========== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg: #0a0a1a;
+    --bg-soft: #11112a;
+    --primary: #8a63ff;
+    --secondary: #4a9eff;
+    --accent: #00e5ff;
+    --text: #e8e8f5;
+    --text-dim: #9a9ab8;
+    --text-mute: #6a6a8a;
+    --card-bg: rgba(30, 30, 60, 0.45);
+    --card-border: rgba(138, 99, 255, 0.25);
+    --glass-blur: 16px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* 背景装饰光晕 */
+    background-image:
+      radial-gradient(circle at 15% 12%, rgba(138, 99, 255, 0.12), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(0, 229, 255, 0.08), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(74, 158, 255, 0.10), transparent 45%);
+    background-attachment: fixed;
+  }
+
+  /* ========== 主容器 ========== */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+  }
+
+  /* ========== 页头 ========== */
+  .page-header {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .doc-badge {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+  }
+
+  .page-title {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .header-divider {
+    width: 80px;
+    height: 3px;
+    margin: 26px auto 0;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+  }
+
+  /* ========== 架构图区域 ========== */
+  .architecture {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ========== 层卡片通用 ========== */
+  .layer {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 26px 28px;
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .layer:hover {
+    transform: translateY(-4px);
+    border-color: rgba(138, 99, 255, 0.5);
+    box-shadow: 0 14px 44px rgba(138, 99, 255, 0.18);
+  }
+
+  /* 顶部高光条 */
+  .layer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 28px;
+    right: 28px;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+    opacity: 0.7;
+  }
+
+  .layer:nth-child(1) { animation-delay: 0.05s; }
+  .layer:nth-child(3) { animation-delay: 0.15s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ========== 层头部 ========== */
+  .layer-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .layer-icon {
+    font-size: 30px;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(138, 99, 255, 0.12);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    flex-shrink: 0;
+  }
+
+  .layer-title-wrap {
+    flex: 1;
+  }
+
+  .layer-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .layer-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .layer-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(138, 99, 255, 0.14);
+    border: 1px solid rgba(138, 99, 255, 0.35);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* ========== 技术标签（胶囊） ========== */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 16px;
+  }
+
+  .tag {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: 20px;
+    border: 1px solid;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .tag::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+  }
+
+  .tag-purple {
+    color: #c4a8ff;
+    background: rgba(138, 99, 255, 0.12);
+    border-color: rgba(138, 99, 255, 0.4);
+  }
+
+  .tag-blue {
+    color: #8fc4ff;
+    background: rgba(74, 158, 255, 0.12);
+    border-color: rgba(74, 158, 255, 0.4);
+  }
+
+  .tag-cyan {
+    color: #7ee8ff;
+    background: rgba(0, 229, 255, 0.12);
+    border-color: rgba(0, 229, 255, 0.4);
+  }
+
+  .tag-green {
+    color: #8fffc4;
+    background: rgba(0, 200, 120, 0.12);
+    border-color: rgba(0, 200, 120, 0.4);
+  }
+
+  .tag-pink {
+    color: #ff8fc4;
+    background: rgba(255, 80, 160, 0.12);
+    border-color: rgba(255, 80, 160, 0.4);
+  }
+
+  /* ========== 层描述 ========== */
+  .layer-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .layer-desc strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ========== 特性列表 ========== */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+    padding: 7px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .feature-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+  }
+
+  /* ========== 连接箭头（CSS 绘制） ========== */
+  .arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    position: relative;
+  }
+
+  .arrow-line {
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    position: relative;
+  }
+
+  .arrow-line::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--secondary);
+  }
+
+  .arrow-label {
+    position: absolute;
+    left: calc(50% + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: var(--text-mute);
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+
+  /* 分叉箭头容器 */
+  .arrow-split {
+    height: 70px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .arrow-split .trunk {
+    width: 2px;
+    height: 22px;
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+  }
+
+  .arrow-split .bar {
+    position: absolute;
+    top: 22px;
+    height: 2px;
+    background: var(--secondary);
+    left: 25%;
+    right: 25%;
+  }
+
+  .arrow-split .branch {
+    position: absolute;
+    top: 22px;
+    width: 2px;
+    height: 30px;
+    background: var(--secondary);
+  }
+
+  .arrow-split .branch.left { left: 25%; }
+  .arrow-split .branch.right { right: 25%; }
+
+  .arrow-split .branch::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid var(--secondary);
+  }
+
+  /* ========== 第三层双栏 ========== */
+  .layer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    width: 100%;
+  }
+
+  .layer-row .layer {
+    animation-delay: 0.25s;
+  }
+
+  .layer-row .layer.compact {
+    padding: 22px 22px;
+  }
+
+  .layer-row .layer-icon {
+    width: 46px;
+    height: 46px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+
+  .layer-row .layer-title {
+    font-size: 17px;
+  }
+
+  /* ========== 技术统计区 ========== */
+  .stats {
+    margin-top: 52px;
+    width: 100%;
+  }
+
+  .stats-title {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+    position: relative;
+  }
+
+  .stats-title::before,
+  .stats-title::after {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: rgba(138, 99, 255, 0.4);
+    vertical-align: middle;
+    margin: 0 14px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(138, 99, 255, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 229, 255, 0.45);
+  }
+
+  .stat-num {
+    font-size: 34px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8a63ff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .stat-num .plus {
+    font-size: 22px;
+    -webkit-text-fill-color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  /* ========== 数据流向说明 ========== */
+  .flow-note {
+    margin-top: 44px;
+    padding: 22px 26px;
+    background: rgba(138, 99, 255, 0.06);
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-left: 3px solid var(--primary);
+    border-radius: 12px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  .flow-note strong {
+    color: var(--text);
+  }
+
+  .flow-note .hl {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ========== 页脚 ========== */
+  .page-footer {
+    margin-top: 48px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-mute);
+    letter-spacing: 1px;
+  }
+
+  .page-footer span {
+    color: var(--primary);
+  }
+
+  /* ========== 响应式 ========== */
+  @media (max-width: 720px) {
+    .container { padding: 32px 16px 48px; }
+    .page-title { font-size: 28px; }
+    .layer { padding: 22px 20px; }
+    .layer-row { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .arrow-split .bar { left: 25%; right: 25%; }
+    .features { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ========== 页头 ========== -->
+    <header class="page-header">
+      <span class="doc-badge">Technical Architecture</span>
+      <h1 class="page-title">人生平行宇宙实验室 · 技术架构图</h1>
+      <p class="page-subtitle">
+        基于 Vue 3 + Express.js + DeepSeek AI 构建的全栈智能推演平台，<br>
+        通过分层架构实现前端展示、接口服务、AI 推演与数据持久化的解耦协作。
+      </p>
+      <div class="header-divider"></div>
+    </header>
+
+    <!-- ========== 架构图主体 ========== -->
+    <section class="architecture">
+
+      <!-- ===== 第一层：前端展示层 ===== -->
+      <div class="layer">
+        <div class="layer-head">
+          <div class="layer-icon">🎨</div>
+          <div class="layer-title-wrap">
+            <div class="layer-label">Layer 01 · Presentation</div>
+            <div class="layer-title">前端展示层</div>
+          </div>
+          <div class="layer-num">1</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-purple">Vue 3 (Composition API)</span>
+          <span class="tag tag-purple">Vite</span>
+          <span class="tag tag-blue">Vue Router</span>
+          <span class="tag tag-cyan">ECharts</span>
+          <span class="tag tag-green">html2canvas + jsPDF</span>
+        </div>
+        <p class="layer-desc">
+          负责用户界面渲染与交互体验。采用 <strong>响应式设计</strong> 适配多终端，
+          以 <strong>玻璃拟态 UI</strong> 营造科技氛围，配合 <strong>动画系统</strong>
+          呈现平行宇宙的推演过程，并支持将推演结果一键导出为图片或 PDF。
+        </p>
+        <div class="features">
+          <div class="feature"><span class="feature-dot"></span>响应式布局设计</div>
+          <div class="feature"><span class="feature-dot"></span>玻璃拟态 UI 风格</div>
+          <div class="feature"><span class="feature-dot"></span>过渡动画系统</div>
+          <div class="feature"><span class="feature-dot"></span>结果导出（图/PDF）</div>
+        </div>
+      </div>
+
+      <!-- 箭头 -->
+      <div class="arrow">
+        <div class="arrow-line"></div>
+        <span class="arrow-label">HTTP / Axios 请求</span>
+      </div>
+
+      <!-- ===== 第二层：API 接口层 ===== -->
+      <div class="layer">
+        <div class="layer-head">
+          <div class="layer-icon">🔗</div>
+          <div class="layer-title-wrap">
+            <div class="layer-label">Layer 02 · API Gateway</div>
+            <div class="layer-title">API 接口层</div>
+          </div>
+          <div class="layer-num">2</div>
+        </div>
+        <div class="tags">
+          <span class="tag tag-purple">Express.js</span>
+          <span class="tag tag-blue">RESTful API</span>
+          <span class="tag tag-cyan">Axios</span>
+          <span class="tag tag-green">CORS</span>
+          <span class="tag tag-pink">15+ 端点</span>
+        </div>
+        <p class="layer-desc">
+          作为前后端通信枢纽，提供 <strong>15+ RESTful 端点</strong> 统一调度业务逻辑。
+          内置 <strong>统一错误处理</strong> 机制保障服务稳定性，并具备
+          <strong>Mock 数据兜底</strong> 能力，在 AI 服务不可用时仍可正常运行。
+        </p>
+        <div class="features">
+          <div class="feature"><span class="feature-dot"></span>统一错误处理中间件</div>
+          <div class="feature"><span class="feature-dot"></span>Mock 数据兜底机制</div>
+          <div class="feature"><span class="feature-dot"></span>CORS 跨域安全策略</div>
+          <div class="feature"><span class="feature-dot"></span>请求参数校验</div>
+        </div>
+      </div>
+
+      <!-- 分叉箭头 -->
+      <div class="arrow-split">
+        <div class="trunk"></div>
+        <div class="bar"></div>
+        <div class="branch left"></div>
+        <div class="branch right"></div>
+      </div>
+
+      <!-- ===== 第三层：AI 推演层 + 数据层 ===== -->
+      <div class="layer-row">
+
+        <!-- 左：AI 推演层 -->
+        <div class="layer compact">
+          <div class="layer-head">
+            <div class="layer-icon">🤖</div>
+            <div class="layer-title-wrap">
+              <div class="layer-label">Layer 03L · AI Engine</div>
+              <div class="layer-title">AI 推演层</div>
+            </div>
+            <div class="layer-num">3</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-purple">DeepSeek 大模型</span>
+            <span class="tag tag-cyan">Prompt Engineering</span>
+          </div>
+          <p class="layer-desc">
+            接入 <strong>DeepSeek 大模型</strong>，通过精心设计的
+            <strong>Prompt 工程</strong> 驱动核心推演能力，生成四条平行宇宙的人生发展路径，
+            并输出智能分析与个性化建议。
+          </p>
+          <div class="features">
+            <div class="feature"><span class="feature-dot"></span>四宇宙路径生成</div>
+            <div class="feature"><span class="feature-dot"></span>智能结果分析</div>
+            <div class="feature"><span class="feature-dot"></span>个性化建议输出</div>
+          </div>
+        </div>
+
+        <!-- 右：数据层 -->
+        <div class="layer compact">
+          <div class="layer-head">
+            <div class="layer-icon">🗄️</div>
+            <div class="layer-title-wrap">
+              <div class="layer-label">Layer 03R · Data Store</div>
+              <div class="layer-title">数据层</div>
+            </div>
+            <div class="layer-num">3</div>
+          </div>
+          <div class="tags">
+            <span class="tag tag-purple">MySQL</span>
+            <span class="tag tag-blue">localStorage</span>
+            <span class="tag tag-blue">sessionStorage</span>
+          </div>
+          <p class="layer-desc">
+            采用 <strong>MySQL</strong> 进行服务端持久化存储，结合浏览器
+            <strong>本地存储</strong> 实现历史记录留存、决策结果保存与跨页面参数传递，
+            保障数据完整性与访问性能。
+          </p>
+          <div class="features">
+            <div class="feature"><span class="feature-dot"></span>历史记录留存</div>
+            <div class="feature"><span class="feature-dot"></span>决策结果保存</div>
+            <div class="feature"><span class="feature-dot"></span>跨页面参数传递</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== 技术统计 ========== -->
+    <section class="stats">
+      <div class="stats-title">技术规模统计</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">15<span class="plus">+</span></div>
+          <div class="stat-label">API 端点</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10</div>
+          <div class="stat-label">页面路由</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">14</div>
+          <div class="stat-label">核心功能</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">图表类型</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 数据流向说明 ========== -->
+    <div class="flow-note">
+      <strong>架构数据流：</strong>
+      用户在 <span class="hl">前端展示层</span> 发起操作，经由 Axios 通过
+      <span class="hl">API 接口层</span> 转发请求；接口层根据业务类型分别调度
+      <span class="hl">AI 推演层</span>（调用 DeepSeek 生成推演结果）与
+      <span class="hl">数据层</span>（读写 MySQL 与本地存储），最终将聚合结果回传前端渲染呈现。
+      三层架构职责清晰、松耦合，便于独立扩展与维护。
+    </div>
+
+    <!-- ========== 页脚 ========== -->
+    <footer class="page-footer">
+      人生平行宇宙实验室 &nbsp;|&nbsp; <span>Vue 3 · Express.js · DeepSeek AI · MySQL</span> &nbsp;|&nbsp; 技术架构文档
+    </footer>
+
+  </div>
+</body>
+</html>
