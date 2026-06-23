@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创新点说明 - 人生平行宇宙实验室</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #0a0a1a;
+    color: #e0e0f0;
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.8;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 顶部标题区 */
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+    padding: 50px 30px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(138, 99, 255, 0.08), transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(0, 229, 255, 0.06), transparent 50%);
+    pointer-events: none;
+  }
+
+  .header-tag {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(138, 99, 255, 0.15);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 20px;
+    font-size: 13px;
+    color: #b8a0ff;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+  }
+
+  .header h1 {
+    font-size: 38px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+
+  .header .subtitle {
+    font-size: 16px;
+    color: #9090b0;
+    font-weight: 400;
+  }
+
+  /* 引言区 */
+  .intro {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 50px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .intro h2 {
+    font-size: 20px;
+    color: #00e5ff;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .intro p {
+    font-size: 15px;
+    color: #b0b0c8;
+    text-align: justify;
+  }
+
+  .intro .highlight {
+    color: #b8a0ff;
+    font-weight: 600;
+  }
+
+  /* 创新点卡片 */
+  .innovation-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 44px 40px;
+    margin-bottom: 36px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .innovation-card:hover {
+    border-color: rgba(138, 99, 255, 0.3);
+  }
+
+  .innovation-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(138, 99, 255, 0.5), rgba(0, 229, 255, 0.5), transparent);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .card-number {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex-shrink: 0;
+    min-width: 80px;
+  }
+
+  .card-title-area {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  .card-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #f0f0ff;
+    margin-bottom: 6px;
+  }
+
+  .card-subtitle {
+    font-size: 14px;
+    color: #7878a0;
+  }
+
+  .card-section {
+    margin-bottom: 22px;
+  }
+
+  .card-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .label-desc {
+    background: rgba(0, 229, 255, 0.1);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+  }
+
+  .label-diff {
+    background: rgba(255, 180, 80, 0.1);
+    color: #ffb450;
+    border: 1px solid rgba(255, 180, 80, 0.2);
+  }
+
+  .label-tech {
+    background: rgba(138, 99, 255, 0.1);
+    color: #b8a0ff;
+    border: 1px solid rgba(138, 99, 255, 0.2);
+  }
+
+  .card-section p {
+    font-size: 15px;
+    color: #c0c0d8;
+    text-align: justify;
+  }
+
+  .card-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .card-section ul li {
+    font-size: 15px;
+    color: #c0c0d8;
+    padding: 6px 0 6px 22px;
+    position: relative;
+  }
+
+  .card-section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8a63ff, #00e5ff);
+  }
+
+  /* 对比框 */
+  .compare-box {
+    background: rgba(255, 180, 80, 0.05);
+    border-left: 3px solid rgba(255, 180, 80, 0.4);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin-top: 10px;
+  }
+
+  .compare-box p {
+    font-size: 14px;
+    color: #d0c0a0;
+  }
+
+  .compare-box .vs-text {
+    color: #ffb450;
+    font-weight: 600;
+  }
+
+  /* 额外创新区 */
+  .extra-section {
+    margin-top: 50px;
+  }
+
+  .extra-title {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .extra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .extra-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 28px 26px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .extra-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 229, 255, 0.25);
+  }
+
+  .extra-icon {
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .extra-card h3 {
+    font-size: 17px;
+    color: #f0f0ff;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .extra-card p {
+    font-size: 14px;
+    color: #a0a0b8;
+    line-height: 1.7;
+  }
+
+  /* 总结区 */
+  .summary {
+    margin-top: 56px;
+    padding: 44px 40px;
+    background: linear-gradient(135deg, rgba(138, 99, 255, 0.08), rgba(0, 229, 255, 0.05));
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-radius: 24px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .summary h2 {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 18px;
+  }
+
+  .summary p {
+    font-size: 15px;
+    color: #c0c0d8;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: justify;
+  }
+
+  .summary .stats {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8a63ff, #00e5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: #8888a8;
+    margin-top: 4px;
+  }
+
+  /* 页脚 */
+  .footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 24px;
+    color: #585878;
+    font-size: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .card-header {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card-number {
+      font-size: 48px;
+    }
+    .extra-grid {
+      grid-template-columns: 1fr;
+    }
+    .header h1 {
+      font-size: 28px;
+    }
+    .summary .stats {
+      gap: 30px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 顶部标题 -->
+  <div class="header">
+    <span class="header-tag">INNOVATION HIGHLIGHTS</span>
+    <h1>人生平行宇宙实验室</h1>
+    <p class="subtitle">创新点说明文档 · 面向评委技术评审</p>
+  </div>
+
+  <!-- 引言 -->
+  <div class="intro">
+    <h2>项目创新概述</h2>
+    <p>「人生平行宇宙实验室」是一款基于 AI 大模型的<span class="highlight">人生决策推演与成长陪伴平台</span>。项目以"看见每一个可能的未来"为核心理念，将重大人生决策从"凭直觉赌一把"升级为"多维度科学推演"。面对辞职创业、跨城发展、转行跳槽、婚恋抉择等人生关键岔路口，大多数人只能依靠有限经验和主观感受做出判断，决策质量高度依赖运气。本产品旨在用人工智能技术打破这一困境，让每个人都能在行动之前"预演"未来。</p>
+    <p style="margin-top:14px;">我们围绕<span class="highlight">推演引擎、生命周期闭环、能力体检、可视化地图</span>四大方向构建了完整的创新体系，并辅以未来来信、未来采访、后悔指数等特色功能，形成了市面上独有的"决策推演 + 全程陪伴"产品形态。四大创新点并非孤立存在，而是构成一条完整的价值链：推演引擎负责"看见未来"，生命周期闭环负责"落地追踪"，能力体检负责"认知自我"，人生地图负责"全局俯瞰"。以下为四大核心创新点及附加创新的详细说明。</p>
+  </div>
+
+  <!-- 创新点一 -->
+  <div class="innovation-card">
+    <div class="card-header">
+      <div class="card-number">01</div>
+      <div class="card-title-area">
+        <div class="card-icon">🌌</div>
+        <div class="card-title">四重平行宇宙推演引擎</div>
+        <div class="card-subtitle">Four-Parallel-Universe Inference Engine</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-desc">核心描述</span>
+      <p>独创"安稳 / 突破 / 成长 / 创新"四维推演模型。用户输入人生参数（年龄、学历、城市、职业、收入、存款）及待决策内容后，系统基于 DeepSeek 大模型同时生成四条平行未来路径。每个宇宙包含完整的推演结果：未来图景文字描述、5 年时间线事件序列、收入变化曲线数据、幸福指数多维评估。四条路径并非简单的高低排序，而是代表四种截然不同的人生哲学与价值取向——安稳宇宙追求确定性，突破宇宙拥抱高风险高回报，成长宇宙注重长期能力积累，创新宇宙探索非常规路径。用户在对比中看清每种选择的真实代价与收益，从而做出真正契合内心的知情决策。</p>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-diff">差异化对比</span>
+      <div class="compare-box">
+        <p><span class="vs-text">市面同类：</span>决策类工具多停留在单一维度的"建议"层面，给出一个"最优解"便结束，用户无法看到不同选择带来的不同人生走向。</p>
+        <p style="margin-top:10px;"><span class="vs-text">本产品：</span>提供四个维度的平行未来对比，用户不再是被动接受一个答案，而是主动在四条人生路径中做出知情选择，决策质量显著提升。</p>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-tech">技术实现</span>
+      <ul>
+        <li>精心设计的 Prompt Engineering，通过角色设定、约束条件、输出格式三层指令让 AI 生成结构化 JSON 数据</li>
+        <li>四套差异化提示词模板，分别对应安稳、突破、成长、创新四种推演人格</li>
+        <li>DeepSeek 大模型流式输出，前端实时渲染推演结果</li>
+        <li>JSON Schema 校验机制，确保收入曲线、时间线等数据字段完整可解析</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 创新点二 -->
+  <div class="innovation-card">
+    <div class="card-header">
+      <div class="card-number">02</div>
+      <div class="card-title-area">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">决策全生命周期闭环</div>
+        <div class="card-subtitle">Full Lifecycle Decision Loop</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-desc">核心描述</span>
+      <p>构建了从"推演 → 执行 → 复盘 → 档案 → 体检"的完整决策闭环。用户做出决策后，系统并非就此结束，而是建立 30 / 90 / 180 天三阶段复盘机制，在每个节点提醒用户回顾实际进展。复盘阶段，AI 会自动对比原始预测与实际结果，分析偏差原因——是预测过于乐观、执行力度不足，还是外部环境变化。所有决策沉淀为决策档案时间轴，完整记录用户每一次人生选择及其后续走向，形成个人决策数据库。随着数据积累，系统能够识别用户的决策模式与盲区，为后续推演提供更精准的个性化校准。</p>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-diff">差异化对比</span>
+      <div class="compare-box">
+        <p><span class="vs-text">市面同类：</span>其他工具只做"推演"这一步，给出预测后即与用户告别，决策是否落地、效果如何，无从追踪。</p>
+        <p style="margin-top:10px;"><span class="vs-text">本产品：</span>陪伴决策全生命周期，从预测到复盘形成数据闭环，让每一次决策都成为可复盘、可迭代、可学习的成长资产。</p>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-tech">技术实现</span>
+      <ul>
+        <li>MySQL 持久化存储历史决策记录、复盘数据、偏差分析结果</li>
+        <li>sessionStorage 实现跨页面参数传递，保证推演到复盘的数据连贯性</li>
+        <li>AI 对比分析模块：将预测 JSON 与实际进展同时送入大模型，生成结构化偏差报告</li>
+        <li>时间轴组件动态渲染决策档案，支持按时间、类型、状态多维筛选</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 创新点三 -->
+  <div class="innovation-card">
+    <div class="card-header">
+      <div class="card-number">03</div>
+      <div class="card-title-area">
+        <div class="card-icon">📊</div>
+        <div class="card-title">六维决策能力体检系统</div>
+        <div class="card-subtitle">Six-Dimensional Decision Capability Assessment</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-desc">核心描述</span>
+      <p>将"决策能力"这一抽象概念拆解为六个可量化维度：风险承受力、执行力、长期主义、学习力、创新力、成长欲。系统基于用户的历史决策行为数据，由 AI 综合评估生成六维评分，并据此生成决策人格标签——探索型、创业型、成长型、稳健型。评估结果通过 ECharts 雷达图直观呈现，用户可清晰看到自身能力结构的强项与短板。AI 进一步根据评估结果输出个性化行动建议，指明能力提升方向。六维模型不仅用于自我认知，更与推演引擎联动：系统会根据用户的能力画像，在推演时自动调整建议权重，让推荐更贴合用户实际执行能力。</p>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-diff">差异化对比</span>
+      <div class="compare-box">
+        <p><span class="vs-text">市面同类：</span>决策能力评估多依赖主观问卷自评，结果模糊、缺乏行为数据支撑，难以指导实际行动。</p>
+        <p style="margin-top:10px;"><span class="vs-text">本产品：</span>将"决策能力"从抽象概念变为基于真实行为数据的六维量化指标，评估有据、可视清晰、建议可执行。</p>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-tech">技术实现</span>
+      <ul>
+        <li>AI 基于用户决策行为数据（决策类型、复盘偏差、行动频率等）生成六维评分</li>
+        <li>ECharts 渲染交互式雷达图，支持悬停查看各维度详细解读</li>
+        <li>人格标签算法：六维权重组合映射至四种决策人格类型</li>
+        <li>个性化建议生成：针对最低维度输出可操作的改善行动清单</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 创新点四 -->
+  <div class="innovation-card">
+    <div class="card-header">
+      <div class="card-number">04</div>
+      <div class="card-title-area">
+        <div class="card-icon">🗺️</div>
+        <div class="card-title">AI 人生地图可视化</div>
+        <div class="card-subtitle">AI Life Map Visualization</div>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-desc">核心描述</span>
+      <p>将人生路径抽象为一棵可交互的树状图谱。地图包含 16 个节点，分为 5 种类型：起点、决策、事件、里程碑、终点。节点之间以贝塞尔曲线优雅连接，形成分叉与汇聚的视觉结构。用户点击任意节点即可展开该节点的可能未来分支，直观看到每一个决策点衍生出的不同人生走向。整张地图既是人生回顾工具，也是未来规划画布，让用户在宏观视角下审视自己的人生轨迹。地图支持缩放、拖拽、节点高亮等交互操作，用户可以聚焦某一分支深入探索，也可以全局俯瞰整体路径结构，理解每个决策在人生长河中的位置与影响。</p>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-diff">差异化对比</span>
+      <div class="compare-box">
+        <p><span class="vs-text">市面同类：</span>人生规划类产品多以列表或时间轴线性呈现，无法表达决策的分叉性与路径的多样性。</p>
+        <p style="margin-top:10px;"><span class="vs-text">本产品：</span>将人生决策可视化为一棵"人生树"，用户可以直观看到所有可能路径及其关联关系，决策的蝴蝶效应一目了然。</p>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <span class="section-label label-tech">技术实现</span>
+      <ul>
+        <li>SVG 绘制贝塞尔曲线连接节点，支持动态路径计算与平滑过渡动画</li>
+        <li>交互式节点展开：点击节点异步加载子节点数据，实现渐进式探索</li>
+        <li>节点类型系统：5 种类型对应不同图标、颜色与交互行为</li>
+        <li>响应式布局算法：自动计算节点位置，避免曲线交叉与视觉拥挤</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 额外创新 -->
+  <div class="extra-section">
+    <h2 class="extra-title">附加创新功能</h2>
+    <div class="extra-grid">
+      <div class="extra-card">
+        <div class="extra-icon">✉️</div>
+        <h3>AI 未来来信</h3>
+        <p>3 年、5 年、10 年后的"自己"写信给现在的你。AI 基于推演结果以第一人称视角撰写未来信件，情感真实、细节具体，让未来不再是冰冷的数据，而是有温度的对话。</p>
+      </div>
+      <div class="extra-card">
+        <div class="extra-icon">🎤</div>
+        <h3>AI 未来采访</h3>
+        <p>以问答采访形式呈现未来视角。系统模拟记者提问，未来的"你"回答关于生活、事业、感悟的问题，通过对话体让用户沉浸式感受不同选择下的人生状态。</p>
+      </div>
+      <div class="extra-card">
+        <div class="extra-icon">⏳</div>
+        <h3>后悔指数</h3>
+        <p>量化"不行动的代价"。系统计算如果用户维持现状不做决策，5 年后可能错失的机会与损失，用具体数字呈现拖延的成本，倒逼用户行动。</p>
+      </div>
+      <div class="extra-card">
+        <div class="extra-icon">📈</div>
+        <h3>数据驾驶舱</h3>
+        <p>比赛演示专用的数据可视化总览页面，聚合展示推演统计、决策分布、能力雷达、人生地图缩略图等核心数据，一屏呈现产品全貌，便于评委快速理解产品价值。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 总结 -->
+  <div class="summary">
+    <h2>创新价值总结</h2>
+    <p>「人生平行宇宙实验室」的核心创新在于：将 AI 大模型的能力从"回答问题"升级为"推演人生"，将决策工具从"一次性建议"升级为"全生命周期陪伴"，将决策能力从"模糊自评"升级为"六维量化体检"，将人生路径从"线性列表"升级为"可交互树状图谱"。四大创新点相互支撑、层层递进，共同构建了一个前所未有的"人生决策操作系统"，在同类产品中具有显著的差异化优势和技术壁垒。附加的未来来信、未来采访、后悔指数等功能进一步增强了产品的情感共鸣与行动驱动力，数据驾驶舱则为比赛演示和产品展示提供了直观的数据入口。我们相信，这款产品不仅是一个工具，更是一种全新的人生决策范式——让每个人都能在行动之前看见未来，在复盘之中认识自我，在地图之上规划人生。</p>
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">平行宇宙维度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">能力体检维度</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">16</div>
+        <div class="stat-label">人生地图节点</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5</div>
+        <div class="stat-label">生命周期阶段</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer">
+    人生平行宇宙实验室 · 创新点说明文档<br>
+    Life Parallel Universe Laboratory
+  </div>
+
+</div>
+</body>
+</html>
