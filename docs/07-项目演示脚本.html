@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生平行宇宙实验室 - 项目演示脚本</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-primary: #0a0a1a;
+    --bg-secondary: #0f0f24;
+    --purple: #8a63ff;
+    --blue: #4a9eff;
+    --cyan: #00e5ff;
+    --green: #4ade80;
+    --orange: #ffa94d;
+    --pink: #ff6b9d;
+    --text-primary: #f0f0fa;
+    --text-secondary: #a0a0c8;
+    --text-muted: #6a6a8a;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(138, 99, 255, 0.15);
+    --card-border-hover: rgba(138, 99, 255, 0.35);
+    --gradient-title: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+    --gradient-time: linear-gradient(135deg, #8a63ff, #4a9eff);
+  }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* 星空背景装饰 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(138, 99, 255, 0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(74, 158, 255, 0.06), transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(0, 229, 255, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 头部 */
+  .header {
+    text-align: center;
+    margin-bottom: 44px;
+    padding: 48px 32px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(138, 99, 255, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .header-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(138, 99, 255, 0.12);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--purple);
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .header h1 {
+    font-size: 38px;
+    font-weight: 800;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+
+  .header .subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  .meta-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .meta-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .meta-tag .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .meta-tag .dot.purple { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+  .meta-tag .dot.blue { background: var(--blue); box-shadow: 0 0 8px var(--blue); }
+  .meta-tag .dot.cyan { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+
+  /* 步骤进度条 */
+  .progress-wrap {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(138, 99, 255, 0.12);
+  }
+
+  .progress-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .progress-track {
+    display: flex;
+    gap: 6px;
+  }
+
+  .progress-seg {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(138, 99, 255, 0.12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-seg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-time);
+    opacity: 0.55;
+  }
+
+  .progress-seg:nth-child(1)::after { opacity: 0.95; }
+  .progress-seg:nth-child(2)::after { opacity: 0.85; }
+  .progress-seg:nth-child(3)::after { opacity: 0.95; }
+  .progress-seg:nth-child(4)::after { opacity: 0.9; }
+  .progress-seg:nth-child(5)::after { opacity: 0.8; }
+  .progress-seg:nth-child(6)::after { opacity: 0.75; }
+  .progress-seg:nth-child(7)::after { opacity: 0.7; }
+  .progress-seg:nth-child(8)::after { opacity: 0.65; }
+
+  /* 演示步骤卡片 */
+  .step {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 30px 34px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    position: relative;
+  }
+
+  .step:hover {
+    border-color: var(--card-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .step-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(138, 99, 255, 0.12);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 180px;
+  }
+
+  /* 时间胶囊标签 */
+  .time-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    background: var(--gradient-time);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 14px rgba(138, 99, 255, 0.3);
+    flex-shrink: 0;
+  }
+
+  .time-pill .clock {
+    font-size: 12px;
+    opacity: 0.9;
+  }
+
+  /* 区块标签 */
+  .block-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 18px 0 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+  }
+
+  .block-label .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .block-label.op .icon {
+    background: rgba(74, 158, 255, 0.15);
+    color: var(--blue);
+  }
+
+  .block-label.narr .icon {
+    background: rgba(138, 99, 255, 0.15);
+    color: var(--purple);
+  }
+
+  .block-label.eff .icon {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--green);
+  }
+
+  /* 操作步骤编号列表 */
+  .op-list {
+    list-style: none;
+    counter-reset: op;
+    margin: 4px 0 0;
+  }
+
+  .op-list li {
+    counter-increment: op;
+    position: relative;
+    padding: 10px 0 10px 40px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    border-bottom: 1px dashed rgba(138, 99, 255, 0.08);
+  }
+
+  .op-list li:last-child {
+    border-bottom: none;
+  }
+
+  .op-list li::before {
+    content: counter(op);
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 26px;
+    height: 26px;
+    background: rgba(74, 158, 255, 0.1);
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .op-list li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .op-list li code {
+    padding: 2px 8px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--cyan);
+    font-family: "SF Mono", "Consolas", monospace;
+  }
+
+  /* 解说词引用块 */
+  .narration {
+    background: rgba(138, 99, 255, 0.06);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 24px;
+    color: var(--text-primary);
+    font-size: 15.5px;
+    line-height: 1.95;
+  }
+
+  .narration p {
+    margin-bottom: 12px;
+  }
+
+  .narration p:last-child {
+    margin-bottom: 0;
+  }
+
+  .narration .accent {
+    color: var(--purple);
+    font-weight: 600;
+  }
+
+  .narration .accent-blue {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .narration .accent-cyan {
+    color: var(--cyan);
+    font-weight: 600;
+  }
+
+  .narration .accent-green {
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* 预期效果绿色标签 */
+  .effect {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .effect-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 15px;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    border-radius: 999px;
+    font-size: 13px;
+    color: #7eea9e;
+    font-weight: 500;
+  }
+
+  .effect-tag::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+    flex-shrink: 0;
+  }
+
+  /* 参数表格 */
+  .param-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 12px 0 4px;
+  }
+
+  .param-item {
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(138, 99, 255, 0.12);
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  .param-item .pk {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-bottom: 2px;
+  }
+
+  .param-item .pv {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* 宇宙标签 */
+  .universe-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0 4px;
+  }
+
+  .universe-tag {
+    padding: 7px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+
+  .universe-tag.u1 {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: rgba(74, 222, 128, 0.3);
+    color: #7eea9e;
+  }
+
+  .universe-tag.u2 {
+    background: rgba(255, 169, 77, 0.1);
+    border-color: rgba(255, 169, 77, 0.3);
+    color: #ffc488;
+  }
+
+  .universe-tag.u3 {
+    background: rgba(74, 158, 255, 0.1);
+    border-color: rgba(74, 158, 255, 0.3);
+    color: #7db8ff;
+  }
+
+  .universe-tag.u4 {
+    background: rgba(255, 107, 157, 0.1);
+    border-color: rgba(255, 107, 157, 0.3);
+    color: #ff8fb8;
+  }
+
+  /* 收尾卡片 */
+  .closing {
+    text-align: center;
+    padding: 40px 34px;
+    background: linear-gradient(135deg, rgba(138, 99, 255, 0.08), rgba(0, 229, 255, 0.05));
+    border: 1px solid rgba(138, 99, 255, 0.25);
+    border-radius: 18px;
+    margin-top: 8px;
+  }
+
+  .closing .quote {
+    font-size: 19px;
+    font-weight: 700;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .closing .sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* 页脚 */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(138, 99, 255, 0.1);
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .footer code {
+    padding: 2px 8px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--cyan);
+    font-family: "SF Mono", "Consolas", monospace;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 40px 18px 60px; }
+    .header h1 { font-size: 28px; }
+    .step { padding: 24px 20px; }
+    .step-title { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <span class="header-badge">项目演示脚本</span>
+    <h1>人生平行宇宙实验室</h1>
+    <p class="subtitle">AI 人生决策成长平台 · 评委演示操作详细脚本</p>
+    <div class="meta-bar">
+      <span class="meta-tag"><span class="dot purple"></span>总时长 5 分钟</span>
+      <span class="meta-tag"><span class="dot blue"></span>8 个演示步骤</span>
+      <span class="meta-tag"><span class="dot cyan"></span>访问地址 localhost:5173</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">演示进度时间线</div>
+      <div class="progress-track">
+        <div class="progress-seg" title="0:00-0:30 开场"></div>
+        <div class="progress-seg" title="0:30-1:30 滚动展示"></div>
+        <div class="progress-seg" title="1:30-2:00 创建模拟"></div>
+        <div class="progress-seg" title="2:00-2:45 四重宇宙"></div>
+        <div class="progress-seg" title="2:45-3:15 深度分析"></div>
+        <div class="progress-seg" title="3:15-3:45 决策体检"></div>
+        <div class="progress-seg" title="3:45-4:15 数据驾驶舱"></div>
+        <div class="progress-seg" title="4:15-5:00 收尾"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第一步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">1</span>
+      <span class="step-title">开场 · 演示模式</span>
+      <span class="time-pill"><span class="clock">0:00</span> — 0:30</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>打开 Chrome 浏览器，在地址栏输入 <code>http://localhost:5173</code> 访问项目首页。</li>
+      <li>等待首页加载完成，目光定位顶部导航栏右侧的<strong>"演示模式"</strong>按钮。</li>
+      <li>点击"演示模式"按钮，页面路由跳转至 <code>/demo</code> 演示模式页面。</li>
+      <li>停留于封面页，等待全屏渐变标题动画播放完毕。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>各位评委老师好，接下来由我为大家现场演示<span class="accent">"人生平行宇宙实验室"</span>。这是一款用 AI 帮你预见不同选择下人生轨迹的决策成长平台。</p>
+      <p>我们专门为今天的评审准备了一个<span class="accent-blue">演示模式</span>，它会用全屏滚动的方式，把项目的价值、创新、架构和应用场景一次性呈现给大家。请各位先看封面——</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">封面页全屏展示</span>
+      <span class="effect-tag">渐变标题"人生平行宇宙实验室"入场动画</span>
+      <span class="effect-tag">星空粒子背景渲染</span>
+    </div>
+  </div>
+
+  <!-- 第二步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">2</span>
+      <span class="step-title">演示模式滚动展示</span>
+      <span class="time-pill"><span class="clock">0:30</span> — 1:30</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>在 <code>/demo</code> 页面缓慢向下滚动鼠标滚轮，逐屏推进。</li>
+      <li>依次经过四个全屏 Section：<strong>项目价值 → 核心创新 → 技术架构 → 应用场景</strong>。</li>
+      <li>每个 Section 滚动吸附到位后停留 3-5 秒，等待入场动画完成再继续下滚。</li>
+      <li>滚动至最后一屏后，点击底部<strong>"立即体验"</strong>按钮，准备进入核心功能。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>现在向下滚动，第一屏是<span class="accent">项目价值</span>——我们瞄准的是 87% 年轻人面临的决策焦虑，让"看不见的未来"变成"看得见、比得了、能复盘"的平行宇宙。</p>
+      <p>第二屏是<span class="accent-blue">核心创新</span>——四重平行宇宙推演，AI 一次生成四条人生路径，每条都有完整的未来画像。</p>
+      <p>第三屏是<span class="accent-cyan">技术架构</span>——前端 Vue3 + ECharts，后端 Node.js + MySQL，AI 推理层负责生成多维度决策分析。</p>
+      <p>最后一屏是<span class="accent-green">应用场景</span>——覆盖职业选择、城市去留、考研就业、跳槽转型等高频决策场景。下面我们进入最核心的功能演示。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">每个 Section 全屏滚动吸附</span>
+      <span class="effect-tag">文字与图标渐入动画</span>
+      <span class="effect-tag">滚动指示器同步高亮</span>
+    </div>
+  </div>
+
+  <!-- 第三步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">3</span>
+      <span class="step-title">核心功能演示 · 创建模拟</span>
+      <span class="time-pill"><span class="clock">1:30</span> — 2:00</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>点击演示模式底部的"立即体验"按钮，或直接访问 <code>/create</code> 创建模拟页。</li>
+      <li>在表单中依次输入人生参数：</li>
+    </ol>
+    <div class="param-grid">
+      <div class="param-item"><div class="pk">年龄</div><div class="pv">28 岁</div></div>
+      <div class="param-item"><div class="pk">学历</div><div class="pv">本科</div></div>
+      <div class="param-item"><div class="pk">所在城市</div><div class="pv">北京</div></div>
+      <div class="param-item"><div class="pk">职业</div><div class="pv">前端工程师</div></div>
+      <div class="param-item"><div class="pk">月收入</div><div class="pv">15,000 元</div></div>
+      <div class="param-item"><div class="pk">存款</div><div class="pv">100,000 元</div></div>
+    </div>
+    <ol class="op-list" start="3" style="counter-reset: op 2;">
+      <li>在"决策内容"输入框填入：<strong>"辞职创业做独立开发者"</strong>，或直接点击快速模板中的同名按钮一键填充。</li>
+      <li>点击底部<strong>"启动平行宇宙模拟"</strong>按钮，触发 AI 推演流程。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>现在进入核心功能。我们以一位 28 岁的北京前端工程师为例，他月薪一万五、存款十万，正面临一个纠结——<span class="accent">要不要辞职创业做独立开发者</span>。</p>
+      <p>这些参数不是随便填的：年龄和学历决定职业天花板，城市影响机会成本，收入和存款决定抗风险能力。把真实的人生参数交给 AI，它才能推演出贴合实际的未来。</p>
+      <p>点击"启动平行宇宙模拟"——请注意看加载动画，AI 正在为这个决定推演四条不同的未来。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">加载动画"AI 正在推演"全屏覆盖</span>
+      <span class="effect-tag">进度条与状态文案动态切换</span>
+      <span class="effect-tag">约 3 秒后跳转结果页</span>
+    </div>
+  </div>
+
+  <!-- 第四步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">4</span>
+      <span class="step-title">结果展示 · 四重宇宙</span>
+      <span class="time-pill"><span class="clock">2:00</span> — 2:45</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>等待结果页加载完成，四个宇宙卡片依次渐入。</li>
+      <li>依次介绍四张卡片，鼠标悬停高亮当前卡片：</li>
+    </ol>
+    <div class="universe-tags">
+      <span class="universe-tag u1">宇宙A · 安稳现状</span>
+      <span class="universe-tag u2">宇宙B · 突破执行</span>
+      <span class="universe-tag u3">宇宙C · 成长折中</span>
+      <span class="universe-tag u4">宇宙D · 创新路径</span>
+    </div>
+    <ol class="op-list" start="3" style="counter-reset: op 2;">
+      <li>点击"宇宙B · 突破执行"卡片，展开查看详情：<strong>未来图景、十年时间线、收入变化曲线、幸福指数</strong>。</li>
+      <li>再点击"宇宙D · 创新路径"卡片，与宇宙B 形成对比展示。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>推演完成。AI 为这个决定生成了<span class="accent">四个平行宇宙</span>。宇宙A 是维持现状继续打工，宇宙B 是果断辞职全力创业，宇宙C 是边上班边副业的折中路线，宇宙D 是加入创业公司的创新路径。</p>
+      <p>每张卡片都不是简单的文字描述，而是一套完整画像——<span class="accent-cyan">未来图景</span>描绘十年后的生活状态，<span class="accent-blue">时间线</span>列出关键节点，<span class="accent">收入曲线</span>展示财务走势，<span class="accent-green">幸福指数</span>量化主观感受。</p>
+      <p>请看宇宙B 和宇宙D 的对比：前者收入峰值更高但波动大，后者更稳健但天花板略低。用户可以像对比商品一样，把四条人生放在同一张图上比较。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">四张卡片错落渐入动画</span>
+      <span class="effect-tag">卡片展开详情过渡流畅</span>
+      <span class="effect-tag">收入曲线 ECharts 渲染</span>
+    </div>
+  </div>
+
+  <!-- 第五步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">5</span>
+      <span class="step-title">深度分析展示</span>
+      <span class="time-pill"><span class="clock">2:45</span> — 3:15</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>在结果页继续向下滚动，依次展示五大深度分析模块。</li>
+      <li>依次经过：<strong>AI 决策树 → 风险预警 → 未来来信 → 后悔指数 → 价值雷达</strong>。</li>
+      <li>在"价值雷达"模块停留，展示六维雷达图的交互效果。</li>
+      <li>在"未来来信"模块停留，朗读信件片段增强感染力。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>仅仅"看见未来"还不够，我们进一步提供<span class="accent">深度决策分析引擎</span>。</p>
+      <p><span class="accent-blue">决策树</span>把复杂决定拆成层层分支，量化每个节点的概率与收益；<span class="accent-blue">风险预警</span>提前识别每条路径的潜在风险并给出规避建议；<span class="accent-cyan">未来来信</span>以十年后自己的口吻写一封信——"亲爱的 28 岁的我，谢谢你当年的勇敢"，用情感共鸣驱动理性决策。</p>
+      <p><span class="accent">后悔指数</span>量化"如果不做这个选择，未来后悔的可能性"；<span class="accent-green">价值雷达</span>用六维度评估每个宇宙与用户核心价值观的匹配度。这套分析不是冷冰冰的数据，而是有温度、有洞察的决策助手。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">ECharts 雷达图六维渲染</span>
+      <span class="effect-tag">决策树分支动画展开</span>
+      <span class="effect-tag">未来来信打字机效果</span>
+    </div>
+  </div>
+
+  <!-- 第六步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">6</span>
+      <span class="step-title">决策体检演示</span>
+      <span class="time-pill"><span class="clock">3:15</span> — 3:45</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>点击导航栏"决策体检"，或访问 <code>/checkup</code> 进入决策体检页。</li>
+      <li>展示页面顶部<strong>综合评分</strong>（如 78 分）与<strong>人格标签</strong>（如"理性探索者"）。</li>
+      <li>向下滚动，展示<strong>六维雷达图</strong>：信息收集、逻辑分析、风险意识、长期视角、情绪管理、行动力。</li>
+      <li>继续滚动，展示各<strong>维度详情</strong>与<strong>行动建议</strong>列表。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>除了帮用户做单次决策，我们还把决策能力本身<span class="accent">量化评估</span>。进入决策体检页，系统会基于用户的历史决策行为，给出一个综合评分和人格画像。</p>
+      <p>比如这位用户得分 78 分，人格标签是<span class="accent-blue">"理性探索者"</span>——逻辑强但行动力偏弱。下方的六维雷达图清晰展示了他在信息收集、风险意识、长期视角等六个维度的强弱分布。</p>
+      <p>每个维度都配有详细解读和<span class="accent-green">行动建议</span>，告诉用户该补哪块短板。这才是真正的成长闭环——不只帮你做决定，更帮你变成更好的决策者。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">综合评分数字滚动动画</span>
+      <span class="effect-tag">六维雷达图 ECharts 渲染</span>
+      <span class="effect-tag">人格标签胶囊展示</span>
+    </div>
+  </div>
+
+  <!-- 第七步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">7</span>
+      <span class="step-title">数据驾驶舱演示</span>
+      <span class="time-pill"><span class="clock">3:45</span> — 4:15</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>点击导航栏"数据驾驶舱"，或访问 <code>/dashboard</code> 进入数据驾驶舱页。</li>
+      <li>展示顶部<strong>5 项核心指标</strong>卡片：总模拟次数、活跃用户、决策准确率、平均幸福提升、覆盖城市数。</li>
+      <li>向下滚动，依次展示三种图表：<strong>折线图</strong>（模拟趋势）、<strong>柱状图</strong>（场景分布）、<strong>环形图</strong>（宇宙偏好）。</li>
+      <li>停留于<strong>实时活动流</strong>模块，展示用户决策动态滚动更新。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>最后带各位评委看一下平台的<span class="accent">数据驾驶舱</span>。这里汇聚了全平台的运行数据。</p>
+      <p>顶部 5 项核心指标一目了然——总模拟次数、活跃用户、决策准确率、平均幸福提升、覆盖城市数。下方三种图表分别用<span class="accent-blue">折线图</span>展示模拟趋势、<span class="accent-cyan">柱状图</span>展示场景分布、<span class="accent-green">环形图</span>展示用户对不同宇宙的偏好。</p>
+      <p>最下方是实时活动流，每一位用户的决策动态都会在这里滚动呈现，让平台运营者能实时感知用户需求。所有图表均由 ECharts 驱动，支持交互式缩放与详情查看。</p>
+    </div>
+
+    <div class="block-label eff"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">折线图 / 柱状图 / 环形图三图渲染</span>
+      <span class="effect-tag">指标卡片数字滚动</span>
+      <span class="effect-tag">实时活动流动态更新</span>
+    </div>
+  </div>
+
+  <!-- 第八步 -->
+  <div class="step">
+    <div class="step-head">
+      <span class="step-num">8</span>
+      <span class="step-title">收尾 · 总结升华</span>
+      <span class="time-pill"><span class="clock">4:15</span> — 5:00</span>
+    </div>
+
+    <div class="block-label op"><span class="icon">01</span>操作步骤</div>
+    <ol class="op-list">
+      <li>点击导航栏 Logo 或访问 <code>/</code> 回到项目首页。</li>
+      <li>停留于首页核心功能区，扫视<strong>14 项核心功能</strong>概览。</li>
+      <li>面向评委，完成总结陈词，结束演示。</li>
+    </ol>
+
+    <div class="block-label narr"><span class="icon">02</span>解说词</div>
+    <div class="narration">
+      <p>回到首页，做最后总结。人生平行宇宙实验室围绕<span class="accent">决策全生命周期</span>，打造了 14 项核心功能——从模拟推演、深度分析，到决策体检、数据驾驶舱，形成"看见未来 → 理解决策 → 复盘成长"的完整闭环。</p>
+      <p>整个平台由 AI 驱动，每一次推演都是一次个性化的未来推演，每一次复盘都是一次认知升级。</p>
+      <p>最后，我想用一句话结束今天的演示——</p>
+    </div>
+
+    <div class="closing">
+      <div class="quote">"人生没有标准答案，但 AI 可以帮你预见可能。"</div>
+      <div class="sub">感谢各位评委老师的聆听，欢迎提问。</div>
+    </div>
+
+    <div class="block-label eff" style="margin-top:20px;"><span class="icon">03</span>预期效果</div>
+    <div class="effect">
+      <span class="effect-tag">首页完整展示</span>
+      <span class="effect-tag">14 项功能卡片网格呈现</span>
+      <span class="effect-tag">演示自然收尾</span>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer">
+    <p>人生平行宇宙实验室 · 项目演示脚本</p>
+    <p>访问地址 <code>http://localhost:5173</code> &nbsp;|&nbsp; 总时长 5 分钟 &nbsp;|&nbsp; 8 个演示步骤</p>
+  </div>
+
+</div>
+</body>
+</html>
