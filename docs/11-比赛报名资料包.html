@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>比赛报名资料包 · 人生平行宇宙实验室</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a1a;
+    --bg-card: rgba(255,255,255,0.03);
+    --border: rgba(138,99,255,0.15);
+    --purple: #8a63ff;
+    --blue: #4a9eff;
+    --cyan: #00e5ff;
+    --green: #4ade80;
+    --pink: #ff6b9d;
+    --orange: #ffa500;
+    --text: #f0f0fa;
+    --text-sec: #a0a0c8;
+    --text-muted: #6a6a8a;
+    --gradient: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.8;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(138,99,255,0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(74,158,255,0.06), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    background: rgba(138,99,255,0.1);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    color: var(--text-sec);
+  }
+  .section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(12px);
+    animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0;
+  }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.10s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.20s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.30s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+  .section:nth-child(8) { animation-delay: 0.40s; }
+  .section:nth-child(9) { animation-delay: 0.45s; }
+  .section:nth-child(10) { animation-delay: 0.50s; }
+  .section:nth-child(11) { animation-delay: 0.55s; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .section-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+  }
+  .section-meta {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .content {
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+    letter-spacing: 0.2px;
+  }
+  .content p {
+    margin-bottom: 14px;
+  }
+  .content p:last-child {
+    margin-bottom: 0;
+  }
+  .content strong {
+    color: var(--purple);
+    font-weight: 600;
+  }
+  .content .hl-blue { color: var(--blue); font-weight: 600; }
+  .content .hl-cyan { color: var(--cyan); font-weight: 600; }
+  .content .hl-green { color: var(--green); font-weight: 600; }
+  .content .hl-pink { color: var(--pink); font-weight: 600; }
+  .one-liner {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.6;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    padding: 8px 0;
+  }
+  .highlight-box {
+    padding: 16px 20px;
+    background: rgba(138,99,255,0.06);
+    border: 1px solid rgba(138,99,255,0.15);
+    border-left: 3px solid var(--purple);
+    border-radius: 10px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--text-sec);
+    line-height: 1.8;
+  }
+  .highlight-box.blue {
+    background: rgba(74,158,255,0.06);
+    border-color: rgba(74,158,255,0.15);
+    border-left-color: var(--blue);
+  }
+  .highlight-box.green {
+    background: rgba(74,222,128,0.06);
+    border-color: rgba(74,222,128,0.15);
+    border-left-color: var(--green);
+  }
+  .highlight-box.pink {
+    background: rgba(255,107,157,0.06);
+    border-color: rgba(255,107,157,0.15);
+    border-left-color: var(--pink);
+  }
+  .innovation-card {
+    padding: 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    margin-bottom: 14px;
+  }
+  .innovation-card:last-child {
+    margin-bottom: 0;
+  }
+  .innovation-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+  .innovation-card p {
+    font-size: 14px;
+    color: var(--text-sec);
+    line-height: 1.7;
+  }
+  .tech-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(74,158,255,0.1);
+    border: 1px solid rgba(74,158,255,0.2);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--blue);
+    margin: 2px 4px 2px 0;
+    letter-spacing: 0.3px;
+  }
+  .footer {
+    text-align: center;
+    padding: 40px 0 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 20px;
+  }
+  .footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+  @media (max-width: 640px) {
+    .page { padding: 40px 16px 60px; }
+    .section { padding: 24px 20px; }
+    .header h1 { font-size: 24px; }
+    .one-liner { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-badge">比赛报名资料包</div>
+    <h1>人生平行宇宙实验室</h1>
+    <p>AI 人生决策成长平台 · 2026</p>
+  </header>
+
+  <!-- 1. 项目名称 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">01</div>
+      <div class="section-title">项目名称</div>
+      <div class="section-meta">必填</div>
+    </div>
+    <div class="content">
+      <p style="font-size: 22px; font-weight: 700; letter-spacing: 1px;">人生平行宇宙实验室</p>
+      <p style="color: var(--text-sec); font-size: 14px;">AI 人生决策成长平台</p>
+    </div>
+  </div>
+
+  <!-- 2. 一句话介绍 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">02</div>
+      <div class="section-title">一句话介绍</div>
+      <div class="section-meta">30字以内</div>
+    </div>
+    <div class="one-liner">
+      用 AI 帮你预见不同选择下的人生轨迹
+    </div>
+  </div>
+
+  <!-- 3. 100字简介 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">03</div>
+      <div class="section-title">100字简介</div>
+      <div class="section-meta">约100字</div>
+    </div>
+    <div class="content">
+      <p>人生平行宇宙实验室是一个 AI 驱动的人生决策模拟平台。用户输入年龄、学历、城市、职业等人生参数和正在犹豫的决定，系统基于 DeepSeek 大模型生成安稳、突破、成长、创新四个平行宇宙的未来推演，每个宇宙包含未来图景、时间线、收入变化和幸福指数，帮助用户科学预见不同选择的人生轨迹。</p>
+    </div>
+  </div>
+
+  <!-- 4. 300字简介 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">04</div>
+      <div class="section-title">300字简介</div>
+      <div class="section-meta">约300字</div>
+    </div>
+    <div class="content">
+      <p>87%的年轻人在面临重大人生决策时感到焦虑。考研还是就业？留在大厂还是出去创业？留在北京还是回老家？这些决定可能改变未来十年的人生轨迹，但做决定之前，永远看不到另一条路上会发生什么。</p>
+      <p>人生平行宇宙实验室用 AI 解决这个问题。用户输入七项人生参数和正在犹豫的决定，系统基于 DeepSeek 大模型，推演出四个平行宇宙的未来图景：安稳宇宙延续当前轨迹，突破宇宙果断执行决定，成长宇宙渐进转型，创新宇宙探索差异化路线。每个宇宙包含五年时间线、收入变化曲线和幸福指数评估。</p>
+      <p>不止于推演。产品还提供 AI 决策树、风险预警、未来来信、后悔指数、价值雷达等八项深度分析，以及 30/90/180 天三阶段决策复盘、决策档案、六维决策能力体检和 AI 人生地图可视化，覆盖从推演到成长的决策全生命周期。共 14 项核心功能，10 个页面路由，15 个 API 端点。</p>
+    </div>
+  </div>
+
+  <!-- 5. 1000字项目介绍 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">05</div>
+      <div class="section-title">1000字项目介绍</div>
+      <div class="section-meta">约1000字</div>
+    </div>
+    <div class="content">
+      <p>人生没有标准答案，但 AI 可以帮你预见可能。这是人生平行宇宙实验室的核心理念。我们构建了一个基于大模型推理的人生决策模拟平台，让用户在做出重大决定之前，提前"体验"不同选择可能带来的未来。</p>
+      <p><strong>问题背景</strong>。调研显示，87%的年轻人在面临重大人生决策时感到焦虑。这种焦虑的根源在于信息不对称：你无法同时走两条路，也无法预知另一条路的终点。传统的决策方式——问朋友、查资料、列优缺点——都停留在经验层面，缺乏个性化和前瞻性。市面上已有的职业规划工具，大多只提供一份性格测试报告，告诉你"适合做什么"，但人生不是性格测试，人生是一个充满可能性的平行宇宙。</p>
+      <p><strong>解决方案</strong>。用户在创建页面输入七项人生参数（年龄、学历、城市、职业、月收入、存款、决策内容），系统调用 DeepSeek 大模型，生成四个平行宇宙的推演结果。安稳宇宙模拟延续当前轨迹的稳中求进路径；突破宇宙模拟果断执行决定的破局重生路径；成长宇宙模拟渐进转型的平衡发展路径；创新宇宙模拟差异化路线的探索路径。每个宇宙包含完整的未来图景描述、五年时间线、收入变化曲线和幸福指数评估，用户可以直观对比四条路径的差异。</p>
+      <p><strong>深度分析</strong>。四重宇宙推演只是起点。系统还会基于推演结果生成八项深度分析：AI 决策树用树状图展示未来可能路径和概率；风险预警分析可能后悔的关键节点；AI 未来来信让三年、五年、十年后的自己写信给现在的你；后悔指数量化不行动的代价；人生价值雷达从财富、健康、家庭、自由、成长、幸福六个维度对比四个宇宙；AI 案例库匹配相似用户案例；AI 未来采访以问答形式呈现未来视角；PDF 报告支持一键导出完整结果。</p>
+      <p><strong>决策成长闭环</strong>。很多决策工具的通病是推演完就结束了。人生平行宇宙实验室做了完整的生命周期闭环：推演、执行、复盘、档案、体检。系统在 30 天、90 天、180 天三个节点提醒用户复盘，填写实际发生的情况，AI 对比原始预测与实际结果，分析偏差原因。所有历史决策进入决策档案，用时间轴呈现。AI 决策体检从风险承受力、执行力、长期主义、学习力、创新力、成长欲六个维度量化评估决策能力，生成决策人格标签。AI 人生地图将人生路径画成一棵可交互的树，16 个节点、5 种类型，点击展开每个节点的可能未来。</p>
+      <p><strong>技术实现</strong>。前端采用 Vue 3 Composition API + Vite 构建，ECharts 负责数据可视化，html2canvas + jsPDF 支持报告导出。后端基于 Express.js 提供 15 个 RESTful API 端点，DeepSeek 大模型通过 Prompt Engineering 生成结构化推演结果，MySQL 存储历史记录，localStorage/sessionStorage 实现跨页传参。UI 采用玻璃拟态设计，深色宇宙主题，响应式布局适配移动端。还内置了数据驾驶舱和 5 分钟路演演示模式，专为比赛场景设计。</p>
+    </div>
+  </div>
+
+  <!-- 6. 创新点 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">06</div>
+      <div class="section-title">创新点</div>
+      <div class="section-meta">四大创新</div>
+    </div>
+    <div class="content">
+      <div class="innovation-card">
+        <h4>四重平行宇宙推演引擎</h4>
+        <p>独创"安稳/突破/成长/创新"四维推演模型。基于 DeepSeek 大模型，结合用户人生参数深度推演，每个宇宙生成未来图景、五年时间线、收入变化与幸福指数。市面上的决策工具多为单一维度建议，本产品提供四个维度的平行未来对比。</p>
+      </div>
+      <div class="innovation-card">
+        <h4>决策全生命周期闭环</h4>
+        <p>从"推演到执行到复盘到档案到体检"完整闭环。30/90/180 天三阶段复盘机制，AI 对比原始预测与实际结果，分析偏差原因。其他工具只做推演这一步，本产品陪伴决策全生命周期。</p>
+      </div>
+      <div class="innovation-card">
+        <h4>六维决策能力体检系统</h4>
+        <p>风险承受力、执行力、长期主义、学习力、创新力、成长欲六维度量化评估，生成决策人格标签（探索型/创业型/成长型/稳健型）。将"决策能力"从抽象概念变为可测量、可追踪的六维指标。</p>
+      </div>
+      <div class="innovation-card">
+        <h4>AI 人生地图可视化</h4>
+        <p>将人生路径抽象为可交互的树状图谱，16 个节点、5 种类型（起点/决策/事件/里程碑/终点），贝塞尔曲线连接，点击展开每个节点的可能未来。用户可以像探索游戏一样，探索自己人生的所有可能性。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 技术亮点 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">07</div>
+      <div class="section-title">技术亮点</div>
+      <div class="section-meta">技术栈</div>
+    </div>
+    <div class="content">
+      <p>前后端分离架构，AI 大模型驱动核心业务逻辑。</p>
+      <div style="margin: 16px 0;">
+        <span class="tech-tag">Vue 3</span>
+        <span class="tech-tag">Vite</span>
+        <span class="tech-tag">Vue Router</span>
+        <span class="tech-tag">ECharts</span>
+        <span class="tech-tag">Express.js</span>
+        <span class="tech-tag">DeepSeek</span>
+        <span class="tech-tag">MySQL</span>
+        <span class="tech-tag">html2canvas</span>
+        <span class="tech-tag">jsPDF</span>
+        <span class="tech-tag">Axios</span>
+      </div>
+      <div class="highlight-box blue">
+        <strong>AI 推演引擎</strong>：通过 Prompt Engineering 让 DeepSeek 大模型生成结构化 JSON 数据，包含四个宇宙的完整推演。设计了容错机制，API 不可用时自动降级到 Mock 数据，保证 UI 功能完整可用。
+      </div>
+      <div class="highlight-box">
+        <strong>前端工程化</strong>：Vue 3 Composition API 实现逻辑复用，Vite 提供开发热更新和生产构建。ECharts 渲染折线图、柱状图、环形图、雷达图四种图表。玻璃拟态 UI 配合 CSS 动画系统，深色宇宙主题贯穿全局。
+      </div>
+      <div class="highlight-box green">
+        <strong>数据流设计</strong>：sessionStorage 实现跨页面数据传递（创建页到结果页），localStorage 持久化用户偏好。MySQL 存储历史决策记录，支持时间轴回溯。15 个 RESTful API 端点覆盖全部业务场景。
+      </div>
+      <div class="highlight-box pink">
+        <strong>生产部署</strong>：后端自动托管前端 dist 静态文件，单端口提供前后端服务。SPA 路由回退保证刷新不 404。支持 PM2 进程守护和 Nginx 反向代理，可一键部署到云服务器。
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. 商业价值 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">08</div>
+      <div class="section-title">商业价值</div>
+      <div class="section-meta">三轮驱动</div>
+    </div>
+    <div class="content">
+      <div class="highlight-box">
+        <strong>B2C 个人订阅</strong>：面向 20-35 岁面临人生决策的年轻用户，提供基础免费版（Mock 数据推演）和 Pro 版（真实 AI 推演 + 决策体检 + PDF 报告导出）。定价 9.9 元/月，低于一杯咖啡的价格，降低决策门槛。
+      </div>
+      <div class="highlight-box blue">
+        <strong>B2B 企业服务</strong>：面向企业 HR 和培训部门，提供员工职业规划辅助工具。帮助企业做人才发展决策，提升员工满意度和留存率。按企业规模年费收费，提供定制化部署和数据分析后台。
+      </div>
+      <div class="highlight-box green">
+        <strong>B2G 高校合作</strong>：面向高校就业指导中心，作为就业辅导工具部署。帮助毕业生科学规划职业路径，提升就业质量。以校企合作项目形式落地，获取政策支持和品牌背书。
+      </div>
+      <p>三个方向覆盖个人、企业、机构三类客户，形成从 C 端口碑到 B 端变现到 G 端背书的商业飞轮。</p>
+    </div>
+  </div>
+
+  <!-- 9. 社会价值 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">09</div>
+      <div class="section-title">社会价值</div>
+      <div class="section-meta">三个维度</div>
+    </div>
+    <div class="content">
+      <p>87%的年轻人在面临重大人生决策时感到焦虑。这种焦虑不只是心理问题，它导致拖延、错失机会、甚至抑郁。人生平行宇宙实验室从三个维度创造社会价值。</p>
+      <div class="highlight-box">
+        <strong>减少决策焦虑</strong>。当用户看到四个平行宇宙的推演结果，焦虑感会显著降低——不是因为 AI 给了"正确答案"，而是因为不确定性被具象化了。看得见的可能性，比看不见的未来更容易接受。
+      </div>
+      <div class="highlight-box blue">
+        <strong>量化决策能力</strong>。六维决策能力体检把"决策能力"这个抽象概念变成了可测量、可追踪的指标。用户可以知道自己哪个维度强、哪个维度弱，有针对性地提升。这不是性格测试，是基于真实决策行为的量化评估。
+      </div>
+      <div class="highlight-box green">
+        <strong>AI 民主化</strong>。大模型推理能力不应该只服务于大企业。人生平行宇宙实验室让每个普通人都能获得 AI 辅助决策的能力——9.9 元/月，低于一杯咖啡。这是 AI 技术普惠的一个具体落地。
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. 团队介绍 -->
+  <div class="section">
+    <div class="section-label">
+      <div class="section-num">10</div>
+      <div class="section-title">团队介绍</div>
+      <div class="section-meta">个人开发者</div>
+    </div>
+    <div class="content">
+      <p>本项目为个人开发者独立完成，覆盖产品设计、前后端开发、UI 设计、AI Prompt 工程全流程。</p>
+      <div class="highlight-box">
+        <strong>技术能力</strong>：熟练掌握 Vue 3 全家桶（Composition API / Vue Router / Pinia）、Node.js / Express.js 后端开发、MySQL 数据库设计。具备 Prompt Engineering 实战经验，能将大模型能力转化为结构化业务数据。熟悉 ECharts 数据可视化、html2canvas/jsPDF 报告导出、响应式设计和 CSS 动画系统。
+      </div>
+      <div class="highlight-box blue">
+        <strong>产品能力</strong>：独立完成从需求分析到产品落地的全流程。设计了四重平行宇宙推演模型、决策全生命周期闭环、六维决策能力体检系统、AI 人生地图可视化四个核心创新点。14 项核心功能、10 个页面路由、15 个 API 端点，均为独立设计和开发。
+      </div>
+      <div class="highlight-box green">
+        <strong>项目数据</strong>：前端 1054 个模块，构建产物 gzip 后约 580KB。后端 15 个 API 端点，支持 Mock 数据兜底和 DeepSeek AI 双模式。完整覆盖从用户输入到 AI 推演到结果展示到决策复盘的全链路。附带 9 份比赛材料文档和完整部署文档。
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>人生平行宇宙实验室 · AI 人生决策成长平台 · 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>
