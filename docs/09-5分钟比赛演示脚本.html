@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5分钟比赛演示脚本 · 人生平行宇宙实验室</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a1a;
+    --bg-card: rgba(255,255,255,0.03);
+    --border: rgba(138,99,255,0.15);
+    --border-hover: rgba(138,99,255,0.35);
+    --purple: #8a63ff;
+    --blue: #4a9eff;
+    --cyan: #00e5ff;
+    --pink: #ff6b9d;
+    --green: #4ade80;
+    --orange: #ffa500;
+    --text: #f0f0fa;
+    --text-sec: #a0a0c8;
+    --text-muted: #6a6a8a;
+    --gradient: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+  /* 星空背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(138,99,255,0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(74,158,255,0.06), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+  /* 顶部标题 */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .header-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    background: rgba(138,99,255,0.1);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple);
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    color: var(--text-sec);
+    letter-spacing: 0.3px;
+  }
+  /* 时间线 */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--purple), var(--blue), var(--cyan), var(--green), var(--pink));
+    opacity: 0.3;
+  }
+  .timeline-dot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .timeline-dot span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--purple);
+  }
+  .timeline-dot:nth-child(2) span { border-color: var(--blue); }
+  .timeline-dot:nth-child(3) span { border-color: var(--cyan); }
+  .timeline-dot:nth-child(4) span { border-color: var(--green); }
+  .timeline-dot:nth-child(5) span { border-color: var(--pink); }
+  .timeline-dot small {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  /* 分钟卡片 */
+  .minute-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(12px);
+    transition: border-color 0.4s ease, transform 0.4s ease;
+    animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    opacity: 0;
+  }
+  .minute-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+  .minute-card:nth-child(1) { animation-delay: 0.1s; }
+  .minute-card:nth-child(2) { animation-delay: 0.2s; }
+  .minute-card:nth-child(3) { animation-delay: 0.3s; }
+  .minute-card:nth-child(4) { animation-delay: 0.4s; }
+  .minute-card:nth-child(5) { animation-delay: 0.5s; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* 卡片头部 */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .minute-num {
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .minute-card:nth-child(1) .minute-num { background: linear-gradient(135deg, #8a63ff, #a878ff); }
+  .minute-card:nth-child(2) .minute-num { background: linear-gradient(135deg, #4a9eff, #6bb5ff); }
+  .minute-card:nth-child(3) .minute-num { background: linear-gradient(135deg, #00e5ff, #4ade80); }
+  .minute-card:nth-child(4) .minute-num { background: linear-gradient(135deg, #4ade80, #ffa500); }
+  .minute-card:nth-child(5) .minute-num { background: linear-gradient(135deg, #ff6b9d, #8a63ff); }
+  .minute-info h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+  }
+  .minute-info p {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+  .time-tag {
+    margin-left: auto;
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .minute-card:nth-child(1) .time-tag { background: rgba(138,99,255,0.12); color: var(--purple); border: 1px solid rgba(138,99,255,0.25); }
+  .minute-card:nth-child(2) .time-tag { background: rgba(74,158,255,0.12); color: var(--blue); border: 1px solid rgba(74,158,255,0.25); }
+  .minute-card:nth-child(3) .time-tag { background: rgba(0,229,255,0.12); color: var(--cyan); border: 1px solid rgba(0,229,255,0.25); }
+  .minute-card:nth-child(4) .time-tag { background: rgba(74,222,128,0.12); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+  .minute-card:nth-child(5) .time-tag { background: rgba(255,107,157,0.12); color: var(--pink); border: 1px solid rgba(255,107,157,0.25); }
+  /* 操作提示 */
+  .action-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(74,158,255,0.06);
+    border: 1px solid rgba(74,158,255,0.15);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--blue);
+    letter-spacing: 0.2px;
+  }
+  .action-hint::before {
+    content: '▶';
+    font-size: 10px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  /* 演讲稿 */
+  .script {
+    font-size: 15.5px;
+    line-height: 2;
+    color: var(--text);
+    letter-spacing: 0.2px;
+  }
+  .script p {
+    margin-bottom: 14px;
+  }
+  .script p:last-child {
+    margin-bottom: 0;
+  }
+  .script strong {
+    color: var(--purple);
+    font-weight: 600;
+  }
+  .script .hl-blue { color: var(--blue); font-weight: 600; }
+  .script .hl-cyan { color: var(--cyan); font-weight: 600; }
+  .script .hl-green { color: var(--green); font-weight: 600; }
+  .script .hl-pink { color: var(--pink); font-weight: 600; }
+  /* 关键数据 */
+  .key-data {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .data-chip {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-sec);
+    letter-spacing: 0.3px;
+  }
+  .data-chip b {
+    color: var(--text);
+    font-weight: 700;
+  }
+  /* 底部 */
+  .footer {
+    text-align: center;
+    padding: 40px 0 0;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    line-height: 1.8;
+  }
+  .footer .quote {
+    font-size: 16px;
+    color: var(--text-sec);
+    font-style: italic;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  @media (max-width: 640px) {
+    .page { padding: 40px 16px 60px; }
+    .minute-card { padding: 28px 20px; }
+    .minute-num { font-size: 36px; }
+    .header h1 { font-size: 24px; }
+    .timeline-dot small { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 顶部 -->
+  <header class="header">
+    <div class="header-badge">5分钟现场答辩演示脚本</div>
+    <h1>人生平行宇宙实验室</h1>
+    <p>AI 人生决策成长平台 · 适合现场路演</p>
+  </header>
+
+  <!-- 时间线 -->
+  <div class="timeline">
+    <div class="timeline-dot"><span></span><small>项目背景</small></div>
+    <div class="timeline-dot"><span></span><small>核心功能</small></div>
+    <div class="timeline-dot"><span></span><small>AI推演</small></div>
+    <div class="timeline-dot"><span></span><small>成长平台</small></div>
+    <div class="timeline-dot"><span></span><small>创新价值</small></div>
+  </div>
+
+  <!-- 第1分钟 -->
+  <div class="minute-card">
+    <div class="card-header">
+      <div class="minute-num">01</div>
+      <div class="minute-info">
+        <h2>介绍项目背景</h2>
+        <p>提出问题，引发共鸣</p>
+      </div>
+      <div class="time-tag">0:00 — 1:00</div>
+    </div>
+    <div class="action-hint">操作：打开首页，鼠标悬停导航栏"演示模式"按钮，然后点击进入演示模式页面</div>
+    <div class="script">
+      <p>各位评委好。我想先问大家一个问题：如果当初你做了另一个选择，现在的人生会怎样？</p>
+      <p>这个问题，几乎每个年轻人都问过自己。考研还是就业？留在大厂还是出去创业？留在北京还是回老家？这些决定，可能改变一个人未来十年的人生轨迹。但问题是，我们<strong>在做决定之前，永远看不到另一条路上会发生什么</strong>。</p>
+      <p>我们调研发现，<span class="hl-blue">87%的年轻人在面临重大人生决策时会感到焦虑</span>。不是因为不想做决定，而是因为缺乏一个科学的工具，帮他们预见不同选择可能带来的结果。市面上的职业规划工具，大多只是给你一个性格测试，然后告诉你"你适合做什么"。但人生不是性格测试，人生是一个充满可能性的平行宇宙。</p>
+      <p>所以我们做了这个产品——<strong>人生平行宇宙实验室</strong>。一个用 AI 大模型帮你模拟不同选择下人生轨迹的决策成长平台。你输入你的人生参数和正在犹豫的决定，AI 会为你推演出四个平行宇宙的未来图景。这不是算命，这是基于大模型推理的<span class="hl-cyan">人生决策模拟</span>。</p>
+    </div>
+    <div class="key-data">
+      <div class="data-chip">痛点：<b>87%决策焦虑</b></div>
+      <div class="data-chip">方案：<b>AI四重宇宙推演</b></div>
+    </div>
+  </div>
+
+  <!-- 第2分钟 -->
+  <div class="minute-card">
+    <div class="card-header">
+      <div class="minute-num">02</div>
+      <div class="minute-info">
+        <h2>展示核心功能</h2>
+        <p>四重平行宇宙推演</p>
+      </div>
+      <div class="time-tag">1:00 — 2:00</div>
+    </div>
+    <div class="action-hint">操作：在演示模式页面滚动到"项目价值"和"核心创新"部分，然后点击"立即体验"进入创建页</div>
+    <div class="script">
+      <p>现在我来演示核心功能。用户进入创建页面，输入自己的人生参数：<span class="hl-blue">年龄28岁、本科学历、在北京做前端工程师、月收入1万5、存款10万</span>。然后在决策框里写下正在犹豫的事情——比如"辞职创业做独立开发者"。</p>
+      <p>点击启动后，AI 会基于 DeepSeek 大模型，为你生成<span class="hl-cyan">四个平行宇宙的推演结果</span>。</p>
+      <p>第一个是<strong>安稳宇宙</strong>：你继续留在公司，稳中求进，五年后可能升到技术主管，收入稳步增长，但内心那团火始终没熄。</p>
+      <p>第二个是<strong>突破宇宙</strong>：你果断辞职，全职做独立开发。前两年很苦，收入不稳定，但第三年一个产品爆发了，你实现了财务自由。</p>
+      <p>第三个是<strong>成长宇宙</strong>：你没有裸辞，而是用业余时间做副业，逐步过渡。两年后副业收入超过了主业，你才从容辞职。</p>
+      <p>第四个是<strong>创新宇宙</strong>：你走了一条完全不同的路——做开源工具，建立个人品牌，通过社区影响力获得商业机会。</p>
+      <p>每个宇宙都有完整的<span class="hl-green">未来时间线、收入变化曲线和幸福指数评估</span>。用户可以直观对比四条路径的差异，而不是靠想象。</p>
+    </div>
+    <div class="key-data">
+      <div class="data-chip">输入：<b>7项人生参数</b></div>
+      <div class="data-chip">输出：<b>4个平行宇宙</b></div>
+      <div class="data-chip">每宇宙：<b>时间线+收入+幸福指数</b></div>
+    </div>
+  </div>
+
+  <!-- 第3分钟 -->
+  <div class="minute-card">
+    <div class="card-header">
+      <div class="minute-num">03</div>
+      <div class="minute-info">
+        <h2>展示AI推演能力</h2>
+        <p>深度分析与多维洞察</p>
+      </div>
+      <div class="time-tag">2:00 — 3:00</div>
+    </div>
+    <div class="action-hint">操作：在结果页向下滚动，依次展示决策树、风险预警、未来来信、后悔指数、价值雷达</div>
+    <div class="script">
+      <p>四重宇宙只是开始。AI 还会基于推演结果，生成一系列深度分析。</p>
+      <p>首先是<span class="hl-cyan">AI 决策树</span>：用树状图展示每个宇宙中可能的发展路径和概率。用户可以展开每个分支，看到"如果第二年产品没爆发会怎样"这种细分场景。</p>
+      <p>然后是<span class="hl-pink">风险预警</span>：AI 分析每个宇宙中可能让你后悔的关键节点。比如突破宇宙里，最大的风险不是创业失败，而是"第二年还没起色时心态崩了"。</p>
+      <p>我最喜欢的功能是<strong>AI 未来来信</strong>。系统会让三年后、五年后、十年后的"你"，分别写一封信给现在的你。五 年后的你在信里说："那年辞职是对的，但别在第一年就 all in，留六个月生活费。"这种叙事方式，比任何数据分析都更能打动人。</p>
+      <p>还有<span class="hl-green">后悔指数</span>：量化"如果不行动会付出什么代价"。很多人不做决定，不是因为想清楚了，而是因为害怕。后悔指数告诉你，不行动本身也是一种选择，而且代价可能比你想象的大得多。</p>
+      <p>最后是<span class="hl-blue">人生价值雷达</span>：从财富、健康、家庭、自由、成长、幸福六个维度，对比四个宇宙的得分。一眼就能看出，哪个宇宙在哪个维度上更优。</p>
+    </div>
+    <div class="key-data">
+      <div class="data-chip">决策树：<b>路径+概率</b></div>
+      <div class="data-chip">未来来信：<b>3/5/10年视角</b></div>
+      <div class="data-chip">价值雷达：<b>6维度对比</b></div>
+    </div>
+  </div>
+
+  <!-- 第4分钟 -->
+  <div class="minute-card">
+    <div class="card-header">
+      <div class="minute-num">04</div>
+      <div class="minute-info">
+        <h2>展示成长平台能力</h2>
+        <p>决策全生命周期闭环</p>
+      </div>
+      <div class="time-tag">3:00 — 4:00</div>
+    </div>
+    <div class="action-hint">操作：依次访问 /review 复盘页、/archive 档案页、/checkup 体检页、/life-map 人生地图页</div>
+    <div class="script">
+      <p>很多决策工具的通病是：推演完就结束了，用户看完激动三天，然后该干嘛干嘛。我们不一样。</p>
+      <p>人生平行宇宙实验室做了一个<span class="hl-cyan">决策全生命周期闭环</span>：推演、执行、复盘、档案、体检，五个环节缺一不可。</p>
+      <p>用户做完决定后，系统会在<span class="hl-blue">30天、90天、180天</span>三个节点提醒复盘。用户填写实际发生的情况，AI 会对比原始预测和实际结果，分析偏差在哪里。比如 AI 预测你第三个月会有第一个付费用户，但实际到了第五个月才来，AI 会帮你分析原因——是产品方向偏了，还是推广渠道没选对。</p>
+      <p>所有历史决策都会进入<strong>决策档案</strong>，用时间轴的方式呈现。用户可以回看半年前的决策，看看当时的 AI 预测准不准，自己的判断力有没有提升。</p>
+      <p>然后是<span class="hl-green">AI 决策体检</span>：从风险承受力、执行力、长期主义、学习力、创新力、成长欲六个维度，量化评估你的决策能力。生成一个决策人格标签——你是探索型、创业型、成长型还是稳健型。这个标签不是性格测试的结果，而是基于你真实的决策行为数据算出来的。</p>
+      <p>最后是<strong>AI 人生地图</strong>：把人生路径画成一棵可交互的树。16个节点，5种类型，贝塞尔曲线连接。点击任何一个节点，都能展开那个节点的可能未来。用户可以像玩游戏一样，探索自己人生的所有可能性。</p>
+    </div>
+    <div class="key-data">
+      <div class="data-chip">复盘：<b>30/90/180天</b></div>
+      <div class="data-chip">体检：<b>6维雷达图</b></div>
+      <div class="data-chip">人生地图：<b>16节点树</b></div>
+    </div>
+  </div>
+
+  <!-- 第5分钟 -->
+  <div class="minute-card">
+    <div class="card-header">
+      <div class="minute-num">05</div>
+      <div class="minute-info">
+        <h2>总结创新价值</h2>
+        <p>收尾升华，点题</p>
+      </div>
+      <div class="time-tag">4:00 — 5:00</div>
+    </div>
+    <div class="action-hint">操作：访问 /dashboard 数据驾驶舱展示数据，然后回到首页收尾</div>
+    <div class="script">
+      <p>最后我用一分钟总结这个产品的价值。</p>
+      <p>这是我们的<span class="hl-cyan">数据驾驶舱</span>。平台累计模拟超过1万2千人次，AI 分析超过5万次，决策复盘近万次。折线图、柱状图、环形图，实时展示平台运行状况。</p>
+      <p>回到创新本身。我们做了四件事：</p>
+      <p>第一，<strong>独创四重平行宇宙推演模型</strong>。不是给你一个建议，而是给你四个维度的未来，让你自己选。</p>
+      <p>第二，<strong>决策全生命周期闭环</strong>。不是推演完就结束，而是陪你走完30天、90天、180天，持续复盘、持续成长。</p>
+      <p>第三，<strong>六维决策能力量化</strong>。把"决策能力"这个抽象概念，变成了可测量、可追踪的六个维度。</p>
+      <p>第四，<strong>AI 人生地图可视化</strong>。把人生画成一棵树，让用户看见所有可能性。</p>
+      <p>技术层面，我们用 <span class="hl-blue">DeepSeek 大模型</span>做推理引擎，<span class="hl-blue">Vue 3 + ECharts</span> 做前端展示，<span class="hl-blue">Express.js + MySQL</span> 做后端支撑。15个 API 端点，10个页面路由，14项核心功能，3种动态图表。</p>
+      <p>社会价值上，我们希望让每一个面临人生十字路口的年轻人，都能获得 AI 辅助决策的能力。不是替他做决定，而是帮他想清楚。</p>
+      <p>商业上，B2C 面向个人用户订阅，B2B 面向企业人才发展，B2G 面向高校就业指导。三个方向，都有清晰的落地路径。</p>
+      <p>人生没有标准答案，但 AI 可以帮你预见可能。<strong>让每一个选择，都有平行宇宙的答案。</strong></p>
+      <p>谢谢各位评委。</p>
+    </div>
+    <div class="key-data">
+      <div class="data-chip">创新：<b>4大独创点</b></div>
+      <div class="data-chip">技术：<b>DeepSeek + Vue3 + ECharts</b></div>
+      <div class="data-chip">商业：<b>B2C + B2B + B2G</b></div>
+    </div>
+  </div>
+
+  <!-- 底部 -->
+  <footer class="footer">
+    <p class="quote">"人生没有标准答案，但 AI 可以帮你预见可能。"</p>
+    <p>人生平行宇宙实验室 · AI 人生决策成长平台 · 2026</p>
+  </footer>
+
+</div>
+</body>
+</html>
