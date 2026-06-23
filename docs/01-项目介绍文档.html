@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人生平行宇宙实验室 - 项目介绍文档</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --bg-primary: #0a0a1a;
+    --bg-secondary: #0f0f24;
+    --purple: #8a63ff;
+    --blue: #4a9eff;
+    --cyan: #00e5ff;
+    --text-primary: #f0f0fa;
+    --text-secondary: #a0a0c8;
+    --text-muted: #6a6a8a;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(138, 99, 255, 0.15);
+    --card-border-hover: rgba(138, 99, 255, 0.35);
+    --gradient-title: linear-gradient(135deg, #8a63ff, #4a9eff, #00e5ff);
+  }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.8;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* 星空背景装饰 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(138, 99, 255, 0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 50%, rgba(74, 158, 255, 0.06), transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(0, 229, 255, 0.05), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 头部 */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+    padding: 48px 32px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(138, 99, 255, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .header-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(138, 99, 255, 0.12);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--purple);
+    margin-bottom: 24px;
+    letter-spacing: 1px;
+  }
+
+  .header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+
+  .header .subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+
+  .header .meta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 5px 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(138, 99, 255, 0.2);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* 章节标题 */
+  .section {
+    margin-bottom: 56px;
+  }
+
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .section-title .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(138, 99, 255, 0.12);
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 12px;
+    font-size: 18px;
+    -webkit-text-fill-color: var(--purple);
+    flex-shrink: 0;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+    padding-left: 54px;
+  }
+
+  /* 玻璃卡片 */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .card:hover {
+    border-color: var(--card-border-hover);
+  }
+
+  .card h3 {
+    color: var(--text-primary);
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .card p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 正文段落 */
+  .content p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 16px;
+    line-height: 1.9;
+  }
+
+  .content p strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .content .highlight {
+    color: var(--purple);
+    font-weight: 600;
+  }
+
+  /* 数据统计卡片 */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+
+  .stat-card:hover {
+    border-color: var(--card-border-hover);
+  }
+
+  .stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* 功能列表网格 */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+  }
+
+  .feature-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .feature-card:hover {
+    border-color: var(--card-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .feature-num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(138, 99, 255, 0.2), rgba(74, 158, 255, 0.15));
+    border: 1px solid rgba(138, 99, 255, 0.3);
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--purple);
+  }
+
+  .feature-body h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .feature-body p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* 技术栈标签 */
+  .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .tech-tag {
+    padding: 8px 18px;
+    background: rgba(138, 99, 255, 0.08);
+    border: 1px solid rgba(138, 99, 255, 0.25);
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .tech-tag .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* 表格 */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 20px 0;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+  }
+
+  th {
+    background: rgba(138, 99, 255, 0.08);
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: left;
+    padding: 14px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    border-bottom: 1px solid rgba(138, 99, 255, 0.08);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tr:hover td {
+    background: rgba(138, 99, 255, 0.03);
+  }
+
+  /* 流程图 */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 28px 0;
+  }
+
+  .flow-step {
+    padding: 12px 22px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .flow-arrow {
+    color: var(--purple);
+    font-size: 20px;
+    font-weight: 300;
+  }
+
+  /* 宇宙卡片 */
+  .universe-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .universe-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: border-color 0.3s ease;
+  }
+
+  .universe-card:hover {
+    border-color: var(--card-border-hover);
+  }
+
+  .universe-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .universe-card:nth-child(1) .universe-label { color: #4a9eff; }
+  .universe-card:nth-child(2) .universe-label { color: #8a63ff; }
+  .universe-card:nth-child(3) .universe-label { color: #00e5ff; }
+  .universe-card:nth-child(4) .universe-label { color: #ff6b9d; }
+
+  .universe-card h4 {
+    font-size: 17px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .universe-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* 引用块 */
+  .quote {
+    border-left: 3px solid var(--purple);
+    padding: 16px 24px;
+    margin: 24px 0;
+    background: rgba(138, 99, 255, 0.04);
+    border-radius: 0 12px 12px 0;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-style: italic;
+  }
+
+  /* 商业模式卡片 */
+  .biz-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .biz-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 26px 22px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+
+  .biz-card:hover {
+    border-color: var(--card-border-hover);
+  }
+
+  .biz-card .biz-tag {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .biz-card:nth-child(1) .biz-tag {
+    background: rgba(74, 158, 255, 0.12);
+    color: #4a9eff;
+    border: 1px solid rgba(74, 158, 255, 0.3);
+  }
+
+  .biz-card:nth-child(2) .biz-tag {
+    background: rgba(138, 99, 255, 0.12);
+    color: #8a63ff;
+    border: 1px solid rgba(138, 99, 255, 0.3);
+  }
+
+  .biz-card:nth-child(3) .biz-tag {
+    background: rgba(0, 229, 255, 0.12);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+  }
+
+  .biz-card h4 {
+    font-size: 17px;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  .biz-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* 场景列表 */
+  .scenario-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .scenario-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    transition: border-color 0.3s ease;
+  }
+
+  .scenario-item:hover {
+    border-color: var(--card-border-hover);
+  }
+
+  .scenario-item h4 {
+    font-size: 16px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scenario-item h4::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gradient-title);
+    flex-shrink: 0;
+  }
+
+  .scenario-item p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* 页脚 */
+  .footer {
+    text-align: center;
+    margin-top: 64px;
+    padding: 32px;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .footer .gradient-text {
+    background: var(--gradient-title);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .container {
+      padding: 32px 20px 60px;
+    }
+
+    .header h1 {
+      font-size: 30px;
+    }
+
+    .section-title {
+      font-size: 22px;
+    }
+
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .universe-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .biz-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flow {
+      flex-direction: column;
+    }
+
+    .flow-arrow {
+      transform: rotate(90deg);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ========== 头部 ========== -->
+  <div class="header">
+    <span class="header-badge">PROJECT INTRODUCTION</span>
+    <h1>人生平行宇宙实验室</h1>
+    <p class="subtitle">AI 人生决策成长平台</p>
+    <div class="meta">
+      <span class="tag">Vue 3 + Vite</span>
+      <span class="tag">Express.js</span>
+      <span class="tag">DeepSeek AI</span>
+      <span class="tag">MySQL</span>
+      <span class="tag">ECharts</span>
+    </div>
+  </div>
+
+  <!-- ========== 1. 项目概述 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">01</span>项目概述</h2>
+    <p class="section-desc">Project Overview</p>
+    <div class="content">
+      <p><strong>人生平行宇宙实验室</strong>是一个基于 AI 大模型的人生决策模拟与成长平台。平台以"平行宇宙"为核心隐喻，将人生中每一个犹豫不决的决策，转化为可被 AI 推演、可视化对比、长期追踪的科学实验。</p>
+      <p>用户只需输入自身的人生参数（年龄、职业、收入、家庭状况等）和正在犹豫的决定（如"是否跳槽到创业公司""是否回二线城市发展"），平台便会调用 <span class="highlight">DeepSeek 大模型</span>，在数秒内生成四重平行宇宙的未来推演：</p>
+    </div>
+
+    <div class="universe-grid">
+      <div class="universe-card">
+        <div class="universe-label">宇宙 A · 安稳</div>
+        <h4>保持现状</h4>
+        <p>不做改变，延续当前人生轨迹，推演维持现状的长期发展走向。</p>
+      </div>
+      <div class="universe-card">
+        <div class="universe-label">宇宙 B · 突破</div>
+        <h4>执行目标</h4>
+        <p>坚定执行用户的决定，推演该选择带来的直接后果与连锁影响。</p>
+      </div>
+      <div class="universe-card">
+        <div class="universe-label">宇宙 C · 成长</div>
+        <h4>折中路径</h4>
+        <p>AI 推荐的折中方案，在稳健与进取之间寻找平衡的成长路径。</p>
+      </div>
+      <div class="universe-card">
+        <div class="universe-label">宇宙 D · 创新</div>
+        <h4>另类视角</h4>
+        <p>AI 推荐的另类视角方案，跳出常规思维框架的创造性人生路径。</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <p>每个宇宙输出收入变化、风险指数、幸福指数、成长指数和 AI 建议等核心维度数据，并通过雷达图、趋势图直观对比，帮助用户在决策前"预见"不同选择的人生轨迹，从而做出更加理性、从容的人生决策。</p>
+      <p>平台不止于一次推演，而是构建了从"推演"到"执行"到"复盘"到"档案"再到"体检"的<span class="highlight">决策全生命周期闭环</span>，让每一次人生选择都成为可量化、可追溯、可优化的成长资产。</p>
+    </div>
+  </div>
+
+  <!-- ========== 2. 问题背景 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">02</span>问题背景</h2>
+    <p class="section-desc">Problem Background</p>
+    <div class="content">
+      <p>人生充满选择，而每一个重大决策都可能深刻改变一个人的命运轨迹。然而，在面临职业转型、城市迁移、教育规划等关键人生节点时，大多数人依赖的仍然是直觉、他人经验和碎片化信息，缺乏科学的决策辅助工具。</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">87%</div>
+        <div class="stat-label">年轻人面临重大决策时感到焦虑</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">73%</div>
+        <div class="stat-label">后悔曾做出的重要人生选择</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">主流个性化 AI 决策辅助工具</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>痛点一：决策焦虑普遍存在</h3>
+      <p>据调研，<strong>87% 的年轻人</strong>在面临重大人生决策时感到焦虑和迷茫。职业选择、城市去留、感情抉择、教育投资……每一个决策都伴随着巨大的不确定性，而人脑天然难以同时权衡多个变量的长期影响，导致决策疲劳和回避心理。</p>
+    </div>
+    <div class="card">
+      <h3>痛点二：传统决策方式缺乏科学依据</h3>
+      <p>传统的决策方式——拍脑袋、抛硬币、问亲友——缺乏对未来可能性的系统性预见能力。即便是"利弊分析法"等经典工具，也无法基于个人真实参数推演出不同选择的长期人生轨迹，更无法量化风险与收益。</p>
+    </div>
+    <div class="card">
+      <h3>痛点三：现有工具无法满足个性化需求</h3>
+      <p>市面上的职业规划工具、心理测评产品大多提供标准化、模板化的建议，无法提供基于 AI 大模型的、个性化的、面向未来的决策推演。用户需要的不是一份通用报告，而是"如果我做了这个选择，我的人生会怎样"的具象化预演。</p>
+    </div>
+  </div>
+
+  <!-- ========== 3. 解决方案 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">03</span>解决方案</h2>
+    <p class="section-desc">Solution</p>
+    <div class="content">
+      <p>人生平行宇宙实验室以 <span class="highlight">"AI 推演 + 全生命周期闭环"</span> 为核心方法论，将人生决策从"一次性赌博"升级为"可实验、可复盘、可优化的科学过程"。</p>
+    </div>
+
+    <div class="card">
+      <h3>四重平行宇宙推演</h3>
+      <p>基于 DeepSeek 大模型，平台为用户的每一个决策生成四个维度的未来图景：安稳（保持现状）、突破（坚定执行）、成长（折中路径）、创新（另类视角）。每个宇宙都包含 1 年、3 年、5 年的阶段性推演，覆盖收入、风险、幸福、成长四大核心指标，并通过 ECharts 可视化呈现，让用户一目了然地看到不同选择的长期差异。</p>
+    </div>
+
+    <div class="card">
+      <h3>决策全生命周期闭环</h3>
+      <p>平台不止于一次推演，而是构建了完整的决策成长闭环，让每一次选择都成为可追踪的成长资产：</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step">推演</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">执行</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">复盘</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">档案</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">体检</div>
+    </div>
+
+    <div class="content">
+      <p>用户在决策前进行 AI 推演，决策后按 30 天、90 天、180 天节点进行复盘，所有决策沉淀为个人人生档案，最终通过 AI 决策体检量化个人的决策能力成长曲线。</p>
+    </div>
+
+    <div class="card">
+      <h3>14 项核心功能覆盖决策全流程</h3>
+      <p>从推演、预警、复盘到导出、体检，平台提供 14 项核心功能，覆盖决策前、决策中、决策后的完整流程，形成一套完整的人生决策辅助系统。</p>
+    </div>
+  </div>
+
+  <!-- ========== 4. 核心功能 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">04</span>核心功能</h2>
+    <p class="section-desc">Core Features · 14 项功能覆盖决策全流程</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-body">
+          <h4>四重平行宇宙推演</h4>
+          <p>核心功能。基于 DeepSeek 大模型，为用户决策生成安稳、突破、成长、创新四个维度的未来推演，每个宇宙包含多维指标与阶段性发展预测。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-body">
+          <h4>AI 决策树</h4>
+          <p>将复杂决策拆解为可视化决策树，展示每个分支的概率与影响路径，帮助用户理清决策逻辑，识别关键变量与隐藏风险。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-body">
+          <h4>风险预警</h4>
+          <p>AI 自动识别每个平行宇宙中的潜在风险点，按严重程度分级预警，并提供针对性的风险缓释建议，防患于未然。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-body">
+          <h4>AI 未来来信</h4>
+          <p>以"未来自己写给现在的自己"的书信形式，呈现 5 年后不同选择下的人生感悟，用情感共鸣增强决策的代入感与说服力。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-body">
+          <h4>AI 案例库</h4>
+          <p>汇聚海量真实人生决策案例，AI 智能匹配与用户处境相似的案例参考，让用户从他人的选择与结果中获得启发。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-body">
+          <h4>后悔指数</h4>
+          <p>独创量化指标，基于大模型推演评估每个选择在 5 年后可能产生的后悔概率，帮助用户规避"未来后悔"型决策。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">07</div>
+        <div class="feature-body">
+          <h4>人生价值雷达</h4>
+          <p>通过 ECharts 雷达图多维度对比四个平行宇宙在收入、成长、幸福、风险、自由度等维度的表现，直观呈现选择的综合价值。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">08</div>
+        <div class="feature-body">
+          <h4>AI 未来采访</h4>
+          <p>模拟记者采访"未来自己"的互动场景，用户可向不同宇宙中的未来自我提问，获得第一人称视角的人生反馈与建议。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">09</div>
+        <div class="feature-body">
+          <h4>决策复盘（30/90/180天）</h4>
+          <p>在决策执行后的 30 天、90 天、180 天三个关键节点，引导用户对照推演结果进行结构化复盘，校验预测准确度并沉淀经验。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">10</div>
+        <div class="feature-body">
+          <h4>决策档案</h4>
+          <p>所有决策推演、执行、复盘数据自动归档为个人人生决策档案，形成可追溯的决策历史时间线，构建个人成长数据库。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">11</div>
+        <div class="feature-body">
+          <h4>AI 人生地图</h4>
+          <p>将用户所有决策节点串联为可视化人生地图，呈现人生轨迹的全局视图，帮助用户发现决策模式与成长脉络。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">12</div>
+        <div class="feature-body">
+          <h4>AI 决策体检</h4>
+          <p>定期对用户的决策历史进行 AI 综合评估，量化决策能力成长曲线，识别决策盲区，生成个性化决策能力提升建议。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">13</div>
+        <div class="feature-body">
+          <h4>PDF 报告导出</h4>
+          <p>一键将平行宇宙推演结果、雷达图对比、AI 建议等导出为精美 PDF 报告，便于保存、分享与深度研读。</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">14</div>
+        <div class="feature-body">
+          <h4>数据驾驶舱</h4>
+          <p>个人决策数据可视化总览面板，聚合决策次数、复盘完成率、后悔指数趋势、能力成长等核心指标，一目了然掌握决策全貌。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 5. 技术亮点 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">05</span>技术亮点</h2>
+    <p class="section-desc">Technical Highlights</p>
+
+    <div class="tech-tags">
+      <span class="tech-tag"><span class="dot" style="background:#8a63ff;"></span>DeepSeek AI 大模型</span>
+      <span class="tech-tag"><span class="dot" style="background:#42b883;"></span>Vue 3 Composition API</span>
+      <span class="tech-tag"><span class="dot" style="background:#4a9eff;"></span>ECharts 数据可视化</span>
+      <span class="tech-tag"><span class="dot" style="background:#00e5ff;"></span>响应式 + 玻璃拟态 UI</span>
+    </div>
+
+    <div class="card">
+      <h3>DeepSeek AI 大模型驱动</h3>
+      <p>后端集成 DeepSeek 大语言模型 API，通过精心设计的 Prompt 工程将用户人生参数与决策意图结构化输入，引导模型生成包含多维度指标、阶段性预测和个性化建议的四重宇宙推演结果。系统设计了完善的降级策略——在未配置 API Key 时自动切换至 Mock 数据模式，确保产品功能在任何环境下均可完整体验。</p>
+    </div>
+    <div class="card">
+      <h3>Vue 3 Composition API</h3>
+      <p>前端采用 Vue 3 Composition API 构建组件逻辑，通过 setup 函数与响应式 API（ref、reactive、computed）实现细粒度的状态管理。组件设计遵循单一职责原则，UniverseCard、雷达图、趋势图等核心组件高度可复用，代码结构清晰、易于维护与扩展。</p>
+    </div>
+    <div class="card">
+      <h3>ECharts 数据可视化</h3>
+      <p>集成 ECharts 图表库，将 AI 推演的多维数据转化为雷达图、趋势折线图、柱状对比图等直观可视化形态。图表采用与产品一致的深色主题定制，支持交互式数据探索，让用户在视觉层面快速理解不同选择的人生差异。</p>
+    </div>
+    <div class="card">
+      <h3>响应式设计 + 玻璃拟态 UI</h3>
+      <p>采用宇宙主题视觉设计，深色星空背景配合紫色渐变主色调，营造沉浸式探索氛围。全局运用玻璃拟态（Glassmorphism）设计语言——半透明卡片、柔和模糊、微光边框——兼具科技感与美感。响应式布局确保在桌面、平板、移动端均有出色的视觉与交互体验。</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>层级</th>
+            <th>技术选型</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>前端框架</td>
+            <td>Vue 3 + Vite</td>
+            <td>Composition API，极速构建</td>
+          </tr>
+          <tr>
+            <td>路由管理</td>
+            <td>Vue Router</td>
+            <td>SPA 页面路由</td>
+          </tr>
+          <tr>
+            <td>数据可视化</td>
+            <td>ECharts</td>
+            <td>雷达图、趋势图、柱状图</td>
+          </tr>
+          <tr>
+            <td>后端框架</td>
+            <td>Express.js (Node.js)</td>
+            <td>轻量高效的 RESTful API</td>
+          </tr>
+          <tr>
+            <td>AI 引擎</td>
+            <td>DeepSeek API</td>
+            <td>大模型驱动四重宇宙推演</td>
+          </tr>
+          <tr>
+            <td>数据库</td>
+            <td>MySQL</td>
+            <td>决策档案与历史记录持久化</td>
+          </tr>
+          <tr>
+            <td>报告导出</td>
+            <td>html2canvas</td>
+            <td>一键生成分享海报 / PDF</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== 6. 社会价值 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">06</span>社会价值</h2>
+    <p class="section-desc">Social Value</p>
+
+    <div class="quote">
+      "让每一个面临人生十字路口的人，都能在做出选择前，看见不同道路尽头的风景。"
+    </div>
+
+    <div class="card">
+      <h3>帮助年轻人科学决策，减少决策焦虑</h3>
+      <p>87% 的年轻人在重大决策面前感到焦虑，核心原因是对未来的不可预见性。平台通过 AI 推演将"不可见的未来"转化为"可见的平行宇宙"，让决策从盲目赌博变为有据可依的理性选择，从根本上缓解决策焦虑，提升年轻人的心理健康水平与生活幸福感。</p>
+    </div>
+    <div class="card">
+      <h3>量化决策能力，促进个人成长</h3>
+      <p>平台首创"后悔指数""决策体检"等量化指标，将抽象的"决策能力"转化为可测量、可追踪的成长曲线。通过 30/90/180 天复盘机制，帮助用户从每一次决策中提取经验，形成持续迭代的个人成长飞轮，推动从"被动经历人生"到"主动经营人生"的意识转变。</p>
+    </div>
+    <div class="card">
+      <h3>AI 民主化：让每个人都能获得 AI 辅助决策</h3>
+      <p>过去，优质的决策咨询资源（职业规划师、心理咨询师、行业导师）高度集中且价格昂贵，普通人难以获取。平台以 AI 大模型为核心，将高质量的决策辅助能力普惠化、平民化，让每一个人——无论地域、收入、背景——都能获得 AI 驱动的个性化决策支持，推动决策辅助资源的公平可及。</p>
+    </div>
+  </div>
+
+  <!-- ========== 7. 商业价值 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">07</span>商业价值</h2>
+    <p class="section-desc">Commercial Value · 三轮驱动的商业模式</p>
+
+    <div class="biz-grid">
+      <div class="biz-card">
+        <span class="biz-tag">B2C</span>
+        <h4>个人用户订阅</h4>
+        <p>面向 C 端用户提供免费基础推演 + 高级会员订阅模式。会员可享受无限次推演、深度复盘、PDF 导出、AI 决策体检等增值服务，覆盖毕业生、职场人、转型期人群等广泛用户群体。</p>
+      </div>
+      <div class="biz-card">
+        <span class="biz-tag">B2B</span>
+        <h4>企业人才发展</h4>
+        <p>为企业提供人才发展决策支持平台，辅助员工职业规划、内部转岗决策、领导力发展路径推演。同时为心理咨询机构提供 AI 辅助决策工具，提升咨询效率与科学性。</p>
+      </div>
+      <div class="biz-card">
+        <span class="biz-tag">B2G</span>
+        <h4>高校就业指导</h4>
+        <p>为高校就业指导中心提供定制化部署，辅助毕业生职业选择决策，生成群体决策趋势分析报告，为高校就业指导工作提供数据支撑与 AI 工具赋能。</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <p>B2C、B2B、B2G 三轮驱动，形成从个人到企业到政府的完整商业闭环。C 端积累用户与数据，B 端实现规模化变现，G 端建立品牌背书与社会影响力，三者相互赋能、协同增长。</p>
+    </div>
+  </div>
+
+  <!-- ========== 8. 应用场景 ========== -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">08</span>应用场景</h2>
+    <p class="section-desc">Application Scenarios</p>
+
+    <div class="scenario-list">
+      <div class="scenario-item">
+        <h4>毕业生职业选择</h4>
+        <p>面对多个 offer 或考研、考公、就业的岔路口，AI 推演不同选择的 5 年人生轨迹，辅助毕业生做出理性职业决策。</p>
+      </div>
+      <div class="scenario-item">
+        <h4>职场转型决策</h4>
+        <p>跳槽、转行、创业等关键转型节点，平台量化风险与收益，帮助职场人评估转型时机与路径。</p>
+      </div>
+      <div class="scenario-item">
+        <h4>城市迁移规划</h4>
+        <p>一线城市打拼还是回二线安居？AI 基于个人参数推演不同城市选择对收入、生活成本、幸福感的长期影响。</p>
+      </div>
+      <div class="scenario-item">
+        <h4>教育规划</h4>
+        <p>专业选择、留学决策、在职深造等教育投资决策，平台帮助用户评估教育投入的长期回报与成长价值。</p>
+      </div>
+      <div class="scenario-item">
+        <h4>企业人才发展</h4>
+        <p>企业 HR 与人才发展部门利用平台辅助员工职业路径规划，提升人才留存率与组织发展科学性。</p>
+      </div>
+      <div class="scenario-item">
+        <h4>心理咨询辅助</h4>
+        <p>心理咨询师将平台作为辅助工具，帮助来访者在安全的环境中探索不同人生选择的心理预期与情感反应。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 页脚 ========== -->
+  <div class="footer">
+    <p><span class="gradient-text">人生平行宇宙实验室</span> &mdash; 让每一个选择，都有未来的回响</p>
+    <p style="margin-top:8px;">AI 人生决策成长平台 &middot; 项目介绍文档</p>
+  </div>
+
+</div>
+</body>
+</html>
